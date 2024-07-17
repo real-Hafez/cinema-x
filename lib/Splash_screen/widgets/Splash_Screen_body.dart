@@ -1,8 +1,8 @@
 import 'package:audioplayers/audioplayers.dart';
-import 'package:cinema_x/screens/HomeView.dart';
-import 'package:cinema_x/widgets/slide_Image_anim.dart';
-import 'package:cinema_x/widgets/sliding_text.dart';
-import 'package:cinema_x/widgets/slogan_text.dart';
+import 'package:cinema_x/HomeView.dart';
+import 'package:cinema_x/Splash_screen/widgets/slide_Image_anim.dart';
+import 'package:cinema_x/Splash_screen/widgets/sliding_text.dart';
+import 'package:cinema_x/Splash_screen/widgets/slogan_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -48,10 +48,10 @@ class _Splash_Screen_bodyState extends State<Splash_Screen_body>
       vsync: this,
     );
     Future.delayed(
-      const Duration(seconds: 5),
+      const Duration(seconds: 3),
       () {
         Get.to(
-          const Homeview(),
+          () => const Homeview(),
           transition: Transition.fade,
         );
       },
@@ -145,7 +145,7 @@ class _Splash_Screen_bodyState extends State<Splash_Screen_body>
   Future<void> _playSound() async {
     try {
       await _audioPlayer.play(
-        volume: 0.5,
+        volume: 0.7,
         AssetSource('sounds/app opening - Sound Effect.mp3'),
       );
     } catch (e) {

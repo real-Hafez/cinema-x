@@ -1,4 +1,4 @@
-import 'package:cinema_x/widgets/Splash_Screen_body.dart';
+import 'package:cinema_x/Splash_screen/widgets/Splash_Screen_body.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {

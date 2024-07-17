@@ -1,4 +1,4 @@
-import 'package:cinema_x/screens/splash_screen.dart';
+import 'package:cinema_x/Splash_screen/screen/splash_screen.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +22,10 @@ class CinemaX extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      
+      theme: ThemeData(
+        fontFamily: 'SFProDisplay',
+      ),
       useInheritedMediaQuery: true,
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,

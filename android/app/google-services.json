@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "564330720671",
+    "project_id": "cinema-x-fcbbd",
+    "storage_bucket": "cinema-x-fcbbd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:564330720671:android:7ae19d139bf2e5328ea1aa",
+        "android_client_info": {
+          "package_name": "com.example.cinema_x"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCC-wmbmojweWnk8xoFw23XUsFWQh2hoC8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
