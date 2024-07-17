@@ -1,26 +1,32 @@
+import 'package:cinema_x/screens/splash_screen.dart';
+import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-void main() {
-  runApp(const CinemaX());
-}
+void main() => runApp(
+      DevicePreview(
+        backgroundColor: Colors.red,
+        enabled: !kReleaseMode,
+        builder: (context) => const CinemaX(), // Wrap your app
+      ),
+    );
+
+// void main() {
+//   runApp(const CinemaX());
+// }
 
 class CinemaX extends StatelessWidget {
   const CinemaX({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return GetMaterialApp(
+      useInheritedMediaQuery: true,
+      locale: DevicePreview.locale(context),
+      builder: DevicePreview.appBuilder,
       title: 'Cinema X',
-      home: SplashScreen(),
+      home: const SplashScreen(),
     );
-  }
-}
-
-class SplashScreen extends StatelessWidget {
-  const SplashScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold();
   }
 }
