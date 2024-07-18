@@ -6,6 +6,6 @@ class mobile_layout_body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const sign_up_screen();
+    return const SignUpScreen();
   }
 }

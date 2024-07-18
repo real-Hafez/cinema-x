@@ -22,7 +22,6 @@ class CinemaX extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      
       theme: ThemeData(
         fontFamily: 'SFProDisplay',
       ),
