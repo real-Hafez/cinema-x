@@ -8,12 +8,14 @@ class confirm_Password_widget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      
       padding: const EdgeInsets.symmetric(
         horizontal: 18,
         vertical: 18,
       ),
       child: TextFormField(
+        style: const TextStyle(
+          color: Colors.white,
+        ),
         decoration: InputDecoration(
           labelText: 'Confirm Password',
           prefixIcon: const Icon(Icons.lock),
@@ -34,9 +36,9 @@ class confirm_Password_widget extends StatelessWidget {
               width: 2.0,
             ),
           ),
+          labelStyle: const TextStyle(color: Colors.white),
         ),
       ),
     );
   }
 }
-

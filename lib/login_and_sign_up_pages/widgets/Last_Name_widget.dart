@@ -13,6 +13,9 @@ class Last_Name_widget extends StatelessWidget {
         vertical: 0,
       ),
       child: TextFormField(
+        style: const TextStyle(
+          color: Colors.white,
+        ),
         decoration: InputDecoration(
           labelText: 'Last Name',
           prefixIcon: const Icon(Icons.person),
@@ -33,6 +36,7 @@ class Last_Name_widget extends StatelessWidget {
               width: 2.0,
             ),
           ),
+          labelStyle: const TextStyle(color: Colors.white),
         ),
       ),
     );

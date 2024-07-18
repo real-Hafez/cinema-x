@@ -13,6 +13,9 @@ class Email_widget extends StatelessWidget {
         vertical: 18,
       ),
       child: TextFormField(
+        style: const TextStyle(
+          color: Colors.white,
+        ),
         decoration: InputDecoration(
           labelText: 'Email',
           prefixIcon: const Icon(Icons.email),
@@ -33,6 +36,7 @@ class Email_widget extends StatelessWidget {
               width: 2.0,
             ),
           ),
+          labelStyle: const TextStyle(color: Colors.white),
         ),
       ),
     );

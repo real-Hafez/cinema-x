@@ -10,6 +10,9 @@ class First_Name_widget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(18),
       child: TextFormField(
+        style: const TextStyle(
+          color: Colors.white,
+        ),
         decoration: InputDecoration(
           labelText: 'First Name',
           prefixIcon: const Icon(Icons.person),
@@ -30,6 +33,7 @@ class First_Name_widget extends StatelessWidget {
               width: 2.0,
             ),
           ),
+          labelStyle: const TextStyle(color: Colors.white),
         ),
       ),
     );

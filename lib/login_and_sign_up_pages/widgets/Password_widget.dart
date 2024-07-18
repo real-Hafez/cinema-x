@@ -13,6 +13,9 @@ class Password_widget extends StatelessWidget {
         vertical: 0,
       ),
       child: TextFormField(
+        style: const TextStyle(
+          color: Colors.white,
+        ),
         decoration: InputDecoration(
           labelText: 'Password',
           prefixIcon: const Icon(Icons.lock),
@@ -33,6 +36,7 @@ class Password_widget extends StatelessWidget {
               width: 2.0,
             ),
           ),
+          labelStyle: const TextStyle(color: Colors.white),
         ),
       ),
     );
