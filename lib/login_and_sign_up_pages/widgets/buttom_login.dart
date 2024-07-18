@@ -1,9 +1,14 @@
+import 'package:cinema_x/login_and_sign_up_pages/service/auth_Service.dart';
 import 'package:flutter/material.dart';
 
 class buttom_login extends StatelessWidget {
   const buttom_login({
     super.key,
+    required this.emailController,
+    required this.passwordController,
   });
+  final TextEditingController emailController;
+  final TextEditingController passwordController;
 
   @override
   Widget build(BuildContext context) {
@@ -15,23 +20,25 @@ class buttom_login extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25.0),
           gradient: const LinearGradient(
-            colors: [
-              Color(0xff4facfe),
-              Color(0xff00f2fe)
-            ], // Gradient colors
+            colors: [Color(0xff4facfe), Color(0xff00f2fe)], // Gradient colors
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
         ),
         child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            AuthService().signin(
+              email: emailController.text,
+              password: passwordController.text,
+              context: context,
+            );
+          },
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors
-                .transparent, // Set the button background to transparent
+            backgroundColor:
+                Colors.transparent, // Set the button background to transparent
             shadowColor: Colors.transparent, // Remove shadow
             shape: RoundedRectangleBorder(
-              borderRadius:
-                  BorderRadius.circular(25.0), // Rounded corners
+              borderRadius: BorderRadius.circular(25.0), // Rounded corners
             ),
           ),
           child: Text(

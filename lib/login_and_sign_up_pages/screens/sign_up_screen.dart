@@ -1,17 +1,15 @@
-import 'package:cinema_x/HomeView.dart';
 import 'package:cinema_x/login_and_sign_up_pages/screens/login_screen.dart';
 import 'package:cinema_x/login_and_sign_up_pages/widgets/Email_widget.dart';
-import 'package:cinema_x/login_and_sign_up_pages/widgets/First_Name_widget.dart';
-import 'package:cinema_x/login_and_sign_up_pages/widgets/Last_Name_widget.dart';
 import 'package:cinema_x/login_and_sign_up_pages/widgets/Password_widget.dart';
 import 'package:cinema_x/login_and_sign_up_pages/widgets/Sign_Up_button.dart';
-import 'package:cinema_x/login_and_sign_up_pages/widgets/confirm_Password_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SignUpScreen extends StatelessWidget {
-  const SignUpScreen({super.key});
+  SignUpScreen({super.key});
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -46,17 +44,24 @@ class SignUpScreen extends StatelessWidget {
             ),
             Column(
               children: [
-                const First_Name_widget(),
-                const Last_Name_widget(),
-                const Email_widget(),
-                const Password_widget(),
-                const confirm_Password_widget(),
+                //    const First_Name_widget(),
+                //    const Last_Name_widget(),
+                Email_widget(
+                  controller: emailController,
+                ),
+                Password_widget(
+                  controller: passwordController,
+                ),
+                //    const confirm_Password_widget(),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * .01,
                 ),
-                const Padding(
-                  padding: EdgeInsets.all(5),
-                  child: Sign_Up_button(),
+                Padding(
+                  padding: const EdgeInsets.all(5),
+                  child: Sign_Up_button(
+                    emailController: emailController,
+                    passwordController: passwordController,
+                  ),
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * .02,
@@ -74,7 +79,7 @@ class SignUpScreen extends StatelessWidget {
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
                             Get.to(
-                              () => const LoginScreen(),
+                              () => LoginScreen(),
                               transition: Transition.rightToLeft,
                             );
                           },

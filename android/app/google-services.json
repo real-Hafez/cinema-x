@@ -12,7 +12,12 @@
           "package_name": "com.example.cinema_x"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "564330720671-ma24pn2m12vmtnvejrsbhc4e6hnutp6t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCC-wmbmojweWnk8xoFw23XUsFWQh2hoC8"
@@ -20,7 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "564330720671-ma24pn2m12vmtnvejrsbhc4e6hnutp6t.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "564330720671-06c4af11sa3f0f6gfi6l3e6o0k57ivh3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.cinemax.RunnerTests"
+              }
+            }
+          ]
         }
       }
     }

@@ -1,8 +1,14 @@
+import 'package:cinema_x/login_and_sign_up_pages/service/auth_Service.dart';
 import 'package:flutter/material.dart';
 
 class Sign_Up_button extends StatelessWidget {
+  final TextEditingController emailController;
+  final TextEditingController passwordController;
+
   const Sign_Up_button({
     super.key,
+    required this.emailController,
+    required this.passwordController,
   });
 
   @override
@@ -15,26 +21,31 @@ class Sign_Up_button extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25.0),
           gradient: const LinearGradient(
-            colors: [Color(0xff4facfe), Color(0xff00f2fe)], // Gradient colors
+            colors: [Color(0xff4facfe), Color(0xff00f2fe)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
         ),
         child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            AuthService().signup(
+              email: emailController.text,
+              password: passwordController.text,
+              context: context,
+            );
+          },
           style: ElevatedButton.styleFrom(
-            backgroundColor:
-                Colors.transparent, // Set the button background to transparent
-            shadowColor: Colors.transparent, // Remove shadow
+            backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(25.0), // Rounded corners
+              borderRadius: BorderRadius.circular(25.0),
             ),
           ),
           child: Text(
-            'sign up',
+            'Sign Up',
             style: TextStyle(
               fontSize: MediaQuery.of(context).size.height * .04,
-              color: Colors.white, // Text color
+              color: Colors.white,
               fontWeight: FontWeight.bold,
             ),
           ),

@@ -7,7 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  LoginScreen({super.key});
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -47,10 +49,17 @@ class LoginScreen extends StatelessWidget {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const email_login(),
-                    const Password_login(),
+                    email_login(
+                      controller: emailController,
+                    ),
+                    Password_Login(
+                      controller: passwordController,
+                    ),
                     SizedBox(height: MediaQuery.of(context).size.height * .04),
-                    const buttom_login(),
+                    buttom_login(
+                      emailController: emailController,
+                      passwordController: passwordController,
+                    ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * .02,
                     ),
@@ -76,7 +85,7 @@ class LoginScreen extends StatelessWidget {
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 Get.to(
-                                  () => const SignUpScreen(),
+                                  () => SignUpScreen(),
                                   transition: Transition.leftToRight,
                                 );
                               },

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class Password_widget extends StatelessWidget {
-  const Password_widget({
-    super.key,
-  });
+  final TextEditingController controller;
+
+  const Password_widget({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +13,8 @@ class Password_widget extends StatelessWidget {
         vertical: 0,
       ),
       child: TextFormField(
+        controller: controller,
+        obscureText: true,
         style: const TextStyle(
           color: Colors.white,
         ),
