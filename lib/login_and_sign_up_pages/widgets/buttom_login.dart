@@ -1,6 +1,8 @@
-import 'package:cinema_x/login_and_sign_up_pages/bloc/login/cubit/login_cubit.dart';
+import 'dart:ui';
+
+import 'package:cinema_x/login_and_sign_up_pages/service/auth_Service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class buttom_login extends StatelessWidget {
   const buttom_login({
@@ -28,13 +30,24 @@ class buttom_login extends StatelessWidget {
           ),
         ),
         child: ElevatedButton(
-          onPressed: () {
-            final loginCubit = context.read<LoginCubit>();
-            loginCubit.login(
-              email: emailController.text,
-              password: passwordController.text,
-              context: context,
-            );
+          onPressed: () async {
+            try {
+              await AuthService().signin(
+                email: emailController.text,
+                password: passwordController.text,
+                context: context,
+              );
+            } catch (e) {
+              print(e.toString());
+              Fluttertoast.showToast(
+                msg: 'Login failed. Please try again.',
+                toastLength: Toast.LENGTH_LONG,
+                gravity: ToastGravity.SNACKBAR,
+                backgroundColor: Colors.black54,
+                textColor: Colors.white,
+                fontSize: 14.0,
+              );
+            }
           },
           style: ElevatedButton.styleFrom(
             backgroundColor:

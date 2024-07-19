@@ -1,6 +1,6 @@
-import 'package:cinema_x/login_and_sign_up_pages/bloc/signup/cubit/signup_cubit.dart';
+import 'package:cinema_x/login_and_sign_up_pages/service/auth_Service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Sign_Up_button extends StatelessWidget {
   final TextEditingController emailController;
@@ -28,13 +28,24 @@ class Sign_Up_button extends StatelessWidget {
           ),
         ),
         child: ElevatedButton(
-          onPressed: () {
-            final signupCubit = context.read<SignupCubit>();
-            signupCubit.signUp(
-              context: context,
-              email: emailController.text,
-              password: passwordController.text,
-            );
+          onPressed: () async {
+            try {
+              await AuthService().signup(
+                email: emailController.text,
+                password: passwordController.text,
+                context: context,
+              );
+            } catch (e) {
+              print(e.toString());
+              Fluttertoast.showToast(
+                msg: 'Login failed. Please try again.',
+                toastLength: Toast.LENGTH_LONG,
+                gravity: ToastGravity.SNACKBAR,
+                backgroundColor: Colors.black54,
+                textColor: Colors.white,
+                fontSize: 14.0,
+              );
+            }
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.transparent,

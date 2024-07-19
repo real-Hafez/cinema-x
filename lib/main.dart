@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cinema_x/Splash_screen/screen/splash_screen.dart';
 import 'package:cinema_x/firebase_options.dart';
+import 'package:device_preview/device_preview.dart';
 // import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 // import 'package:flutter/foundation.dart';
@@ -21,7 +22,11 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const CinemaX());
+  runApp(
+    DevicePreview(
+      builder: (context) => const CinemaX(),
+    ),
+  );
 }
 
 class CinemaX extends StatelessWidget {
@@ -33,9 +38,9 @@ class CinemaX extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'SFProDisplay',
       ),
-      // useInheritedMediaQuery: true,
-      // locale: DevicePreview.locale(context),
-      // builder: DevicePreview.appBuilder,
+      useInheritedMediaQuery: true,
+      locale: DevicePreview.locale(context),
+      builder: DevicePreview.appBuilder,
       title: 'Cinema X',
       home: const SplashScreen(),
     );

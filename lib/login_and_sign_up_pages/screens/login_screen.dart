@@ -1,15 +1,14 @@
-import 'package:cinema_x/Home_page/screen/home_screen.dart';
-import 'package:cinema_x/login_and_sign_up_pages/bloc/login/cubit/login_cubit.dart';
+import 'package:cinema_x/login_and_sign_up_pages/screens/model_bottom_sheet_forget_password.dart';
 import 'package:cinema_x/login_and_sign_up_pages/screens/sign_up_screen.dart';
-import 'package:cinema_x/login_and_sign_up_pages/service/auth_Service.dart';
 import 'package:cinema_x/login_and_sign_up_pages/widgets/Password_login.dart';
 import 'package:cinema_x/login_and_sign_up_pages/widgets/buttom_login.dart';
 import 'package:cinema_x/login_and_sign_up_pages/widgets/email_login.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart' as get_package;
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get_navigation/src/routes/transitions_type.dart'
+    as get_transitions;
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -47,12 +46,7 @@ class LoginScreen extends StatelessWidget {
                 fontSize: MediaQuery.of(context).size.height * .05,
               ),
             ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.05,
-            ),
-            // Scrollable section for the input fields and buttons
             Column(
-              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 email_login(
                   controller: emailController,
@@ -60,51 +54,38 @@ class LoginScreen extends StatelessWidget {
                 Password_Login(
                   controller: passwordController,
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * .04),
-                BlocProvider(
-                  create: (context) => LoginCubit(AuthService()),
-                  child: BlocConsumer<LoginCubit, LoginState>(
-                    listener: (context, state) {
-                      if (state is LoginSuccess) {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const Home_screen(),
-                          ),
-                        );
-                      } else if (state is LoginFailure) {
-                        Fluttertoast.showToast(
-                          msg: state.error,
-                          toastLength: Toast.LENGTH_LONG,
-                          gravity: ToastGravity.SNACKBAR,
-                          backgroundColor: Colors.black54,
-                          textColor: Colors.white,
-                          fontSize: 18.0,
-                        );
-                      }
-                    },
-                    builder: (context, state) {
-                      if (state is LoginLoading) {
-                        return const CircularProgressIndicator();
-                      }
-                      return buttom_login(
-                        emailController: emailController,
-                        passwordController: passwordController,
-                      );
-                    },
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * .01,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(5),
+                  child: buttom_login(
+                    emailController: emailController,
+                    passwordController: passwordController,
                   ),
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * .02,
                 ),
-                const Text(
-                  'Forget your password?',
-                  style: TextStyle(
-                    color: Colors.white,
+                GestureDetector(
+                  onTap: () {
+                    showModalBottomSheet<void>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return ModelBottomSheetForgetPassword();
+                      },
+                    );
+                  },
+                  child: Text(
+                    'forgot password ?',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: MediaQuery.of(context).size.aspectRatio * 40,
+                    ),
                   ),
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * .03,
+                  height: MediaQuery.of(context).size.height * .02,
                 ),
                 RichText(
                   text: TextSpan(
@@ -120,10 +101,11 @@ class LoginScreen extends StatelessWidget {
                           ..onTap = () {
                             get_package.Get.to(
                               () => SignUpScreen(),
-                              transition: get_package.Transition.leftToRight,
+                              transition:
+                                  get_transitions.Transition.rightToLeft,
                             );
                           },
-                        text: 'Sign up',
+                        text: 'Sign Up',
                         style: const TextStyle(
                           color: Color(0xff4facfe),
                           fontWeight: FontWeight.bold,
