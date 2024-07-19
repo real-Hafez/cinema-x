@@ -1,4 +1,3 @@
-import 'package:cinema_x/HomeView.dart';
 import 'package:cinema_x/Home_page/screen/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +32,7 @@ class AuthService {
         ),
       );
     } on FirebaseAuthException catch (e) {
-      print(e);
+      print('FirebaseAuthException: ${e.code} - ${e.message}');
       String message = '';
       if (e.code == 'weak-password') {
         message = 'The password provided is too weak.';
@@ -49,9 +48,7 @@ class AuthService {
         message = 'Too many requests. Try again later.';
       } else if (e.code == 'network-request-failed') {
         message = 'Network error. Please check your connection.';
-      } else {
-        message = 'An unknown error occurred. Please try again.';
-      }
+      } 
       Fluttertoast.showToast(
         msg: message,
         toastLength: Toast.LENGTH_LONG,
@@ -61,9 +58,9 @@ class AuthService {
         fontSize: 18.0,
       );
     } catch (e) {
-      print(e);
+      print('General Exception: $e');
       Fluttertoast.showToast(
-        msg: 'An error occurred. Please try again.',
+        msg: '',
         toastLength: Toast.LENGTH_LONG,
         gravity: ToastGravity.SNACKBAR,
         backgroundColor: Colors.black54,
@@ -98,37 +95,35 @@ class AuthService {
         MaterialPageRoute(builder: (context) => const Home_screen()),
       );
     } on FirebaseAuthException catch (e) {
-      print(e);
-      String message;
-      switch (e.code) {
-        case 'invalid-email':
-          message = 'The email address is badly formatted.';
-          break;
-        case 'user-not-found':
-          message = 'No user found for that email.';
-          break;
-        case 'wrong-password':
-          message = 'Wrong password provided for that user.';
-          break;
-        case 'user-disabled':
-          message = 'This user has been disabled.';
-          break;
-        case 'too-many-requests':
-          message = 'Too many requests. Try again later.';
-          break;
-        case 'network-request-failed':
-          message = 'Network error. Please check your connection.';
-          break;
-        case 'operation-not-allowed':
-          message =
-              'Sign-in method not allowed. Please enable the sign-in method in Firebase console.';
-          break;
-        default:
-          message = 'An unknown error occurred. Please try again.';
-          break;
-      }
+      print('FirebaseAuthException: ${e.code} - ${e.message}');
+      String message = '';
+      if (e.code == 'wrong-password') {
+        message = 'The password is invalid.';
+      } else if (e.code == 'user-not-found') {
+        message = 'No user found with that email.';
+      } else if (e.code == 'invalid-email') {
+        message = 'The email address is badly formatted.';
+      } else if (e.code == 'user-disabled') {
+        message = 'This user has been disabled.';
+      } else if (e.code == 'operation-not-allowed') {
+        message = 'Email/password accounts are not enabled.';
+      } else if (e.code == 'too-many-requests') {
+        message = 'Too many requests. Try again later.';
+      } else if (e.code == 'network-request-failed') {
+        message = 'Network error. Please check your connection.';
+      } 
       Fluttertoast.showToast(
         msg: message,
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.SNACKBAR,
+        backgroundColor: Colors.black54,
+        textColor: Colors.white,
+        fontSize: 18.0,
+      );
+    } catch (e) {
+      print('General Exception: $e');
+      Fluttertoast.showToast(
+        msg: '',
         toastLength: Toast.LENGTH_LONG,
         gravity: ToastGravity.SNACKBAR,
         backgroundColor: Colors.black54,

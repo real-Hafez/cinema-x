@@ -1,5 +1,6 @@
-import 'package:cinema_x/login_and_sign_up_pages/service/auth_Service.dart';
+import 'package:cinema_x/login_and_sign_up_pages/bloc/login/cubit/login_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class buttom_login extends StatelessWidget {
   const buttom_login({
@@ -7,6 +8,7 @@ class buttom_login extends StatelessWidget {
     required this.emailController,
     required this.passwordController,
   });
+
   final TextEditingController emailController;
   final TextEditingController passwordController;
 
@@ -27,7 +29,8 @@ class buttom_login extends StatelessWidget {
         ),
         child: ElevatedButton(
           onPressed: () {
-            AuthService().signin(
+            final loginCubit = context.read<LoginCubit>();
+            loginCubit.login(
               email: emailController.text,
               password: passwordController.text,
               context: context,
