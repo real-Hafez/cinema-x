@@ -5,7 +5,6 @@ import 'package:cinema_x/login_and_sign_up_pages/widgets/buttom_login.dart';
 import 'package:cinema_x/login_and_sign_up_pages/widgets/email_login.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart' as get_package;
 import 'package:get/get_navigation/src/routes/transitions_type.dart'
     as get_transitions;

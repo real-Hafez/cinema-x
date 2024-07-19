@@ -1,8 +1,11 @@
 import 'dart:ui';
 
+import 'package:cinema_x/Home_page/screen/home_screen.dart';
 import 'package:cinema_x/login_and_sign_up_pages/service/auth_Service.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class buttom_login extends StatelessWidget {
   const buttom_login({
@@ -24,7 +27,7 @@ class buttom_login extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25.0),
           gradient: const LinearGradient(
-            colors: [Color(0xff4facfe), Color(0xff00f2fe)], // Gradient colors
+            colors: [Color(0xff4facfe), Color(0xff00f2fe)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -32,15 +35,25 @@ class buttom_login extends StatelessWidget {
         child: ElevatedButton(
           onPressed: () async {
             try {
+              // Call the signin method from AuthService
               await AuthService().signin(
                 email: emailController.text,
                 password: passwordController.text,
                 context: context,
               );
+
+              // Save the email to SharedPreferences
+              final SharedPreferences sharedPreferences =
+                  await SharedPreferences.getInstance();
+              sharedPreferences.setString('email', emailController.text);
+
+              // Navigate to the Home_screen
+              // This will be handled by the signin method itself
             } catch (e) {
+              // Handle any additional errors here if necessary
               print(e.toString());
               Fluttertoast.showToast(
-                msg: 'Login failed. Please try again.',
+                msg: 'An error occurred during login. Please try again.',
                 toastLength: Toast.LENGTH_LONG,
                 gravity: ToastGravity.SNACKBAR,
                 backgroundColor: Colors.black54,
@@ -50,18 +63,17 @@ class buttom_login extends StatelessWidget {
             }
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor:
-                Colors.transparent, // Set the button background to transparent
-            shadowColor: Colors.transparent, // Remove shadow
+            backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(25.0), // Rounded corners
+              borderRadius: BorderRadius.circular(25.0),
             ),
           ),
           child: Text(
             'Log in',
             style: TextStyle(
               fontSize: MediaQuery.of(context).size.height * .04,
-              color: Colors.white, // Text color
+              color: Colors.white,
               fontWeight: FontWeight.bold,
             ),
           ),

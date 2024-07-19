@@ -36,6 +36,9 @@ class CinemaX extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       theme: ThemeData(
+        primaryColor: const Color(
+          (0xff090E17),
+        ),
         fontFamily: 'SFProDisplay',
       ),
       useInheritedMediaQuery: true,
