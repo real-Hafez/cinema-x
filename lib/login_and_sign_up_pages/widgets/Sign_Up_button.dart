@@ -1,6 +1,7 @@
 import 'package:cinema_x/login_and_sign_up_pages/service/auth_Service.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Sign_Up_button extends StatelessWidget {
   final TextEditingController emailController;
@@ -35,6 +36,12 @@ class Sign_Up_button extends StatelessWidget {
                 password: passwordController.text,
                 context: context,
               );
+
+              final SharedPreferences sharedPreferences =
+                  await SharedPreferences.getInstance();
+              sharedPreferences.setString('email', emailController.text);
+              sharedPreferences.setString('password', passwordController.text);
+              await authenticateUser(context);
             } catch (e) {
               print(e.toString());
               Fluttertoast.showToast(
@@ -65,5 +72,30 @@ class Sign_Up_button extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> authenticateUser(BuildContext context) async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+
+    String? email = sharedPreferences.getString('email');
+    String? password = sharedPreferences.getString('password');
+
+    if (email != null && password != null) {
+      await AuthService().signin(
+        email: email,
+        password: password,
+        context: context,
+      );
+    } else {
+      Fluttertoast.showToast(
+        msg: 'No email or password found in SharedPreferences.',
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.SNACKBAR,
+        backgroundColor: Colors.black54,
+        textColor: Colors.white,
+        fontSize: 14.0,
+      );
+    }
   }
 }

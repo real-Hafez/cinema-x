@@ -1,13 +1,15 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cinema_x/HomeView.dart';
 import 'package:cinema_x/Home_page/screen/home_screen.dart';
+import 'package:cinema_x/Splash_screen/widgets/SlideImageAnimationant_Text.dart';
 import 'package:cinema_x/Splash_screen/widgets/slide_Image_anim.dart';
 import 'package:cinema_x/Splash_screen/widgets/sliding_text.dart';
 import 'package:cinema_x/Splash_screen/widgets/slogan_text.dart';
-import 'package:cinema_x/login_and_sign_up_pages/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Splash_Screen_body extends StatefulWidget {
   const Splash_Screen_body({super.key});
@@ -19,6 +21,7 @@ class Splash_Screen_body extends StatefulWidget {
 class _Splash_Screen_bodyState extends State<Splash_Screen_body>
     with TickerProviderStateMixin {
   late String finelemail = ""; // Initialize variable
+  late String finelepassword = ""; // Initialize variable
 
   late AudioPlayer _audioPlayer;
   late AnimationController _controller;
@@ -86,7 +89,7 @@ class _Splash_Screen_bodyState extends State<Splash_Screen_body>
 
   Future<void> _navigateToNextScreen() async {
     await getvalidation();
-    if (finelemail.isEmpty) {
+    if (finelemail.isEmpty || finelepassword.isEmpty) {
       Get.off(
         transition: Transition.fade,
         () => const Homeview(),
@@ -95,25 +98,52 @@ class _Splash_Screen_bodyState extends State<Splash_Screen_body>
         ),
       );
     } else {
-      Get.off(
-        transition: Transition.zoom,
-        () => const Home_screen(),
-        duration: const Duration(
-          seconds: 0,
-        ),
-      );
+      // Try to sign in with the retrieved email and password
+      try {
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: finelemail,
+          password: finelepassword,
+        );
+        Get.off(
+          transition: Transition.zoom,
+          () => const Home_screen(),
+          duration: const Duration(
+            seconds: 0,
+          ),
+        );
+      } on FirebaseAuthException catch (e) {
+        Fluttertoast.showToast(
+          msg: 'make sure you have a valid email and password',
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.SNACKBAR,
+          backgroundColor: Colors.black54,
+          textColor: Colors.white,
+          fontSize: 14.0,
+        );
+        // Navigate to Homeview if authentication fails
+        Get.off(
+          transition: Transition.fade,
+          () => const Homeview(),
+          duration: const Duration(
+            seconds: 0,
+          ),
+        );
+      }
     }
   }
 
-  Future getvalidation() async {
+  Future<void> getvalidation() async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
     var obtainedemail = sharedPreferences.getString('email');
+    var obtainedpassword = sharedPreferences.getString('password');
 
     setState(() {
       finelemail = obtainedemail ?? "";
+      finelepassword = obtainedpassword ?? "";
     });
-    print(finelemail);
+    print('Email: $finelemail');
+    print('Password: $finelepassword');
     await Future.delayed(const Duration(seconds: 3));
   }
 
@@ -128,39 +158,14 @@ class _Splash_Screen_bodyState extends State<Splash_Screen_body>
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Flexible(
-                child: SlideImageAnimation(
-                  controller: _controller,
-                  showFirstAnimation: _showFirstAnimation,
-                  scaleAnimation: _scaleAnimation,
-                  slideAnimation: _slideAnimation,
-                ),
-              ),
-              sliding_text(
-                sliding_anim: _textSlideAnimation,
-              ),
-            ],
-          ),
-          const SizedBox(height: 20),
-          AnimatedBuilder(
-            animation: _sloganController,
-            builder: (context, child) {
-              return Transform.translate(
-                offset: _SloganAnimation.value,
-                child: slogan_text(SloganAnimation: _SloganAnimation),
-              );
-            },
-          ),
-        ],
-      ),
+    return SlideImageAnimationant_Text(
+      controller: _controller,
+      showFirstAnimation: _showFirstAnimation,
+      scaleAnimation: _scaleAnimation,
+      slideAnimation: _slideAnimation,
+      textSlideAnimation: _textSlideAnimation,
+      sloganController: _sloganController,
+      SloganAnimation: _SloganAnimation,
     );
   }
 

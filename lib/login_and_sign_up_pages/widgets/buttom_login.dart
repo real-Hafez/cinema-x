@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:cinema_x/Home_page/screen/home_screen.dart';
 import 'package:cinema_x/login_and_sign_up_pages/service/auth_Service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -42,15 +44,13 @@ class buttom_login extends StatelessWidget {
                 context: context,
               );
 
-              // Save the email to SharedPreferences
               final SharedPreferences sharedPreferences =
                   await SharedPreferences.getInstance();
               sharedPreferences.setString('email', emailController.text);
+              sharedPreferences.setString('password', passwordController.text);
 
-              // Navigate to the Home_screen
-              // This will be handled by the signin method itself
+              await authenticateUser(context);
             } catch (e) {
-              // Handle any additional errors here if necessary
               print(e.toString());
               Fluttertoast.showToast(
                 msg: 'An error occurred during login. Please try again.',
@@ -80,5 +80,30 @@ class buttom_login extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> authenticateUser(BuildContext context) async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+
+    String? email = sharedPreferences.getString('email');
+    String? password = sharedPreferences.getString('password');
+
+    if (email != null && password != null) {
+      await AuthService().signin(
+        email: email,
+        password: password,
+        context: context,
+      );
+    } else {
+      Fluttertoast.showToast(
+        msg: 'No email or password found in SharedPreferences.',
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.SNACKBAR,
+        backgroundColor: Colors.black54,
+        textColor: Colors.white,
+        fontSize: 14.0,
+      );
+    }
   }
 }

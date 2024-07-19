@@ -10,7 +10,7 @@ class Email_widget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 18,
-        vertical: 18,
+        //  vertical: 18,
       ),
       child: TextFormField(
         controller: controller,
