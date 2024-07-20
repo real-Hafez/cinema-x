@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:cinema_x/Home_page/screen/home_screen.dart';
+import 'package:cinema_x/Pick_card/screen/pick_faviourite_genre.dart';
 import 'package:cinema_x/login_and_sign_up_pages/service/auth_Service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';

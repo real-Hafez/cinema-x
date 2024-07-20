@@ -1,6 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cinema_x/HomeView.dart';
-import 'package:cinema_x/Home_page/screen/home_screen.dart';
+import 'package:cinema_x/Pick_card/screen/pick_faviourite_genre.dart';
 import 'package:cinema_x/Splash_screen/widgets/SlideImageAnimationant_Text.dart';
 import 'package:cinema_x/Splash_screen/widgets/slide_Image_anim.dart';
 import 'package:cinema_x/Splash_screen/widgets/sliding_text.dart';
@@ -106,7 +106,7 @@ class _Splash_Screen_bodyState extends State<Splash_Screen_body>
         );
         Get.off(
           transition: Transition.zoom,
-          () => const Home_screen(),
+          () => pick_faviourite_genre(),
           duration: const Duration(
             seconds: 0,
           ),
