@@ -3,15 +3,19 @@ import 'package:cinema_x/Pick_card/models/fav_genre_model.dart';
 import 'package:flutter/material.dart';
 
 class Pick_card_u_would_like_to_Watch extends StatefulWidget {
-  const Pick_card_u_would_like_to_Watch({super.key, required this.favGenre});
+  const Pick_card_u_would_like_to_Watch(
+      {super.key,
+      required this.favGenre,
+      required this.isSelected,
+      required this.onSelected});
   final FavGenre favGenre;
+  final bool isSelected;
+  final ValueChanged<bool> onSelected;
 
   @override
   State<Pick_card_u_would_like_to_Watch> createState() =>
       _Pick_card_u_would_like_to_WatchState();
 }
-
-bool isSelected = false;
 
 class _Pick_card_u_would_like_to_WatchState
     extends State<Pick_card_u_would_like_to_Watch> {
@@ -20,13 +24,15 @@ class _Pick_card_u_would_like_to_WatchState
     return GestureDetector(
       onTap: () {
         setState(() {
-          isSelected = !isSelected;
+          widget.onSelected(!widget.isSelected);
         });
       },
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          border: isSelected ? Border.all(color: Colors.blue, width: 3) : null,
+          border: widget.isSelected
+              ? Border.all(color: Colors.blue, width: 4)
+              : null,
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(12),
@@ -60,7 +66,7 @@ class _Pick_card_u_would_like_to_WatchState
                   ),
                 ),
               ),
-              if (isSelected)
+              if (widget.isSelected)
                 const Positioned(
                   top: 8,
                   right: 8,

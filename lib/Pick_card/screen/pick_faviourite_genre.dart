@@ -3,11 +3,26 @@ import 'package:cinema_x/Pick_card/widgets/SliverAppBar.dart';
 import 'package:cinema_x/Pick_card/widgets/all_genres.dart';
 import 'package:flutter/material.dart';
 
-class pick_faviourite_genre extends StatelessWidget {
+class pick_faviourite_genre extends StatefulWidget {
   const pick_faviourite_genre({super.key});
 
   @override
+  State<pick_faviourite_genre> createState() => _pick_faviourite_genreState();
+}
+
+class _pick_faviourite_genreState extends State<pick_faviourite_genre> {
+  List<bool> selections = List<bool>.filled(favgenres.length, false);
+
+  void _updateSelection(int index, bool isSelected) {
+    setState(() {
+      selections[index] = isSelected;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    bool atLeastOneSelected = selections.contains(true);
+
     return Scaffold(
       backgroundColor: const Color(0xff090E17),
       body: SafeArea(
@@ -29,10 +44,15 @@ class pick_faviourite_genre extends StatelessWidget {
                       (BuildContext context, int index) {
                         return Padding(
                           padding: EdgeInsets.symmetric(
+                            vertical: MediaQuery.of(context).size.width * .02,
                             horizontal: MediaQuery.of(context).size.width * .02,
                           ),
                           child: Pick_card_u_would_like_to_Watch(
                             favGenre: favgenres[index],
+                            isSelected: selections[index],
+                            onSelected: (bool isSelected) {
+                              _updateSelection(index, isSelected);
+                            },
                           ),
                         );
                       },
@@ -58,17 +78,28 @@ class pick_faviourite_genre extends StatelessWidget {
                     vertical: 10,
                     horizontal: 20,
                   ),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(25),
-                  ),
+                  decoration: atLeastOneSelected
+                      ? BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.circular(25),
+                        )
+                      : BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(25),
+                        ),
                   child: Center(
                     child: Text(
-                      'Select at Least 1',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: MediaQuery.of(context).size.width * .047,
-                      ),
+                      atLeastOneSelected ? 'done' : 'Select at Least 1',
+                      style: atLeastOneSelected
+                          ? TextStyle(
+                              color: Colors.white,
+                              fontSize: MediaQuery.of(context).size.width * .05,
+                            )
+                          : TextStyle(
+                              color: Colors.black,
+                              fontSize:
+                                  MediaQuery.of(context).size.width * .047,
+                            ),
                     ),
                   ),
                 ),
