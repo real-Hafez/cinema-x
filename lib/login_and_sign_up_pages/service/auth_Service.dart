@@ -28,7 +28,7 @@ class AuthService {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (BuildContext context) => pick_faviourite_genre(),
+          builder: (BuildContext context) => const pick_faviourite_genre(),
         ),
       );
     } on FirebaseAuthException catch (e) {
@@ -158,7 +158,7 @@ class AuthService {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (BuildContext context) => pick_faviourite_genre(),
+          builder: (BuildContext context) => const pick_faviourite_genre(),
         ),
       );
     } on FirebaseAuthException catch (e) {

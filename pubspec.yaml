@@ -29,6 +29,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   audioplayers: ^6.0.0
+  cloud_firestore: ^5.1.0
   cupertino_icons: ^1.0.6
   device_preview: ^1.2.0
   firebase_auth: ^5.1.2
