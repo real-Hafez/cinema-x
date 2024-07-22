@@ -26,7 +26,7 @@ class _pick_faviourite_genreState extends State<pick_faviourite_genre> {
 
   Future<String?> _getUserEmail() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('email'); // Assuming 'userEmail' is the key
+    return prefs.getString('email'); 
   }
 
   Future<void> _fetchUserGenres() async {

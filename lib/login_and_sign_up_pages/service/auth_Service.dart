@@ -1,4 +1,5 @@
 import 'package:cinema_x/Pick_card/screen/pick_faviourite_genre.dart';
+import 'package:cinema_x/test.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -158,7 +159,7 @@ class AuthService {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (BuildContext context) => const pick_faviourite_genre(),
+          builder: (BuildContext context) => const Test(),
         ),
       );
     } on FirebaseAuthException catch (e) {

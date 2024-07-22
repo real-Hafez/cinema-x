@@ -1,4 +1,3 @@
-import 'package:cinema_x/Pick_card/screen/pick_faviourite_genre.dart';
 import 'package:cinema_x/login_and_sign_up_pages/screens/login_screen.dart';
 import 'package:cinema_x/login_and_sign_up_pages/widgets/Email_widget.dart';
 import 'package:cinema_x/login_and_sign_up_pages/widgets/Password_widget.dart';

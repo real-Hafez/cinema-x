@@ -2,11 +2,13 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:cinema_x/HomeView.dart';
 import 'package:cinema_x/Pick_card/screen/pick_faviourite_genre.dart';
 import 'package:cinema_x/Splash_screen/widgets/SlideImageAnimationant_Text.dart';
+import 'package:cinema_x/test.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Splash_Screen_body extends StatefulWidget {
   const Splash_Screen_body({super.key});
@@ -19,6 +21,7 @@ class _Splash_Screen_bodyState extends State<Splash_Screen_body>
     with TickerProviderStateMixin {
   late String finelemail = ""; // Initialize variable
   late String finelepassword = ""; // Initialize variable
+  bool isLoading = true;
 
   late AudioPlayer _audioPlayer;
   late AnimationController _controller;
@@ -34,8 +37,8 @@ class _Splash_Screen_bodyState extends State<Splash_Screen_body>
   @override
   void initState() {
     super.initState();
-
     _audioPlayer = AudioPlayer();
+    _fetchUserGenres();
 
     Future.delayed(
       const Duration(seconds: 0),
@@ -86,31 +89,46 @@ class _Splash_Screen_bodyState extends State<Splash_Screen_body>
 
   Future<void> _navigateToNextScreen() async {
     await getvalidation();
+
     if (finelemail.isEmpty || finelepassword.isEmpty) {
       Get.off(
         transition: Transition.fade,
         () => const Homeview(),
-        duration: const Duration(
-          seconds: 0,
-        ),
+        duration: const Duration(seconds: 0),
       );
     } else {
-      // Try to sign in with the retrieved email and password
       try {
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: finelemail,
-          password: finelepassword,
-        );
-        Get.off(
-          transition: Transition.zoom,
-          () => const pick_faviourite_genre(),
-          duration: const Duration(
-            seconds: 0,
-          ),
-        );
+        final QuerySnapshot result = await FirebaseFirestore.instance
+            .collection('users')
+            .where('email', isEqualTo: finelemail)
+            .limit(1)
+            .get();
+        final List<DocumentSnapshot> documents = result.docs;
+
+        if (documents.isEmpty) {
+          print("Email does not exist in Firestore");
+          // Navigate to Homeview if email is not in Firestore
+          Get.off(
+            transition: Transition.fade,
+            () => const Test(),
+            duration: const Duration(seconds: 0),
+          );
+        } else {
+          print("Email exists in Firestore");
+          // Try to sign in with the retrieved email and password
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+            email: finelemail,
+            password: finelepassword,
+          );
+          Get.off(
+            transition: Transition.zoom,
+            () => const pick_faviourite_genre(),
+            duration: const Duration(seconds: 0),
+          );
+        }
       } on FirebaseAuthException catch (e) {
         Fluttertoast.showToast(
-          msg: 'make sure you have a valid email and password',
+          msg: 'Make sure you have a valid email and password',
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.SNACKBAR,
           backgroundColor: Colors.black54,
@@ -121,9 +139,7 @@ class _Splash_Screen_bodyState extends State<Splash_Screen_body>
         Get.off(
           transition: Transition.fade,
           () => const Homeview(),
-          duration: const Duration(
-            seconds: 0,
-          ),
+          duration: const Duration(seconds: 0),
         );
       }
     }
@@ -173,9 +189,43 @@ class _Splash_Screen_bodyState extends State<Splash_Screen_body>
         AssetSource('sounds/app opening - Sound Effect.mp3'),
       );
     } catch (e) {
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   SnackBar(content: Text('Sorry, there is a problem now with audio: $e')),
-      // );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Sorry, there is a problem now with audio: $e')),
+      );
     }
+  }
+
+  Future<String?> _getUserEmail() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('email');
+  }
+
+  Future<void> _fetchUserGenres() async {
+    String? email = await _getUserEmail();
+    if (email == null) {
+      print("User email not found");
+      setState(() {
+        isLoading = false;
+      });
+      return;
+    }
+
+    // Check if email exists in Firestore
+    final QuerySnapshot result = await FirebaseFirestore.instance
+        .collection('users')
+        .where('email', isEqualTo: email)
+        .limit(1)
+        .get();
+    final List<DocumentSnapshot> documents = result.docs;
+
+    if (documents.isEmpty) {
+      print("Email does not exist in Firestore");
+    } else {
+      print("Email exists in Firestore");
+      // You can add any additional logic if the email exists
+    }
+    setState(() {
+      isLoading = false;
+    });
   }
 }

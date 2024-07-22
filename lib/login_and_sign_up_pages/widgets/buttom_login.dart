@@ -52,14 +52,14 @@ class buttom_login extends StatelessWidget {
               await authenticateUser(context);
             } catch (e) {
               print(e.toString());
-              Fluttertoast.showToast(
-                msg: 'An error occurred during login. Please try again.',
-                toastLength: Toast.LENGTH_LONG,
-                gravity: ToastGravity.SNACKBAR,
-                backgroundColor: Colors.black54,
-                textColor: Colors.white,
-                fontSize: 14.0,
-              );
+              // Fluttertoast.showToast(
+              //   msg: 'An error occurred during login. Please try again.',
+              //   toastLength: Toast.LENGTH_LONG,
+              //   gravity: ToastGravity.SNACKBAR,
+              //   backgroundColor: Colors.black54,
+              //   textColor: Colors.white,
+              //   fontSize: 14.0,
+              // );
             }
           },
           style: ElevatedButton.styleFrom(
