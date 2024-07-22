@@ -1,6 +1,6 @@
 import 'package:cinema_x/Pick_card/models/fav_genre_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:cinema_x/test.dart';
+import 'package:cinema_x/home/test.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -73,7 +73,7 @@ class _text_container_for_select_at_least_oneState
             await addUser();
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const Test()),
+              MaterialPageRoute(builder: (context) => const Home()),
             );
           } else {
             Fluttertoast.showToast(

@@ -1,8 +1,8 @@
 import 'package:audioplayers/audioplayers.dart';
-import 'package:cinema_x/HomeView.dart';
+import 'package:cinema_x/layout.dart';
 import 'package:cinema_x/Pick_card/screen/pick_faviourite_genre.dart';
 import 'package:cinema_x/Splash_screen/widgets/SlideImageAnimationant_Text.dart';
-import 'package:cinema_x/test.dart';
+import 'package:cinema_x/home/test.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -93,7 +93,7 @@ class _Splash_Screen_bodyState extends State<Splash_Screen_body>
     if (finelemail.isEmpty || finelepassword.isEmpty) {
       Get.off(
         transition: Transition.fade,
-        () => const Homeview(),
+        () => const layout(),
         duration: const Duration(seconds: 0),
       );
     } else {
@@ -107,15 +107,13 @@ class _Splash_Screen_bodyState extends State<Splash_Screen_body>
 
         if (documents.isEmpty) {
           print("Email does not exist in Firestore");
-          // Navigate to Homeview if email is not in Firestore
           Get.off(
-            transition: Transition.fade,
-            () => const Test(),
+            transition: Transition.fadeIn,
+            () => const Home(),
             duration: const Duration(seconds: 0),
           );
         } else {
           print("Email exists in Firestore");
-          // Try to sign in with the retrieved email and password
           await FirebaseAuth.instance.signInWithEmailAndPassword(
             email: finelemail,
             password: finelepassword,
@@ -135,10 +133,9 @@ class _Splash_Screen_bodyState extends State<Splash_Screen_body>
           textColor: Colors.white,
           fontSize: 14.0,
         );
-        // Navigate to Homeview if authentication fails
         Get.off(
           transition: Transition.fade,
-          () => const Homeview(),
+          () => const layout(),
           duration: const Duration(seconds: 0),
         );
       }
@@ -190,7 +187,8 @@ class _Splash_Screen_bodyState extends State<Splash_Screen_body>
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Sorry, there is a problem now with audio: $e')),
+        const SnackBar(
+            content: Text('Sorry, there is a problem now with audio')),
       );
     }
   }
@@ -210,7 +208,6 @@ class _Splash_Screen_bodyState extends State<Splash_Screen_body>
       return;
     }
 
-    // Check if email exists in Firestore
     final QuerySnapshot result = await FirebaseFirestore.instance
         .collection('users')
         .where('email', isEqualTo: email)
@@ -219,10 +216,9 @@ class _Splash_Screen_bodyState extends State<Splash_Screen_body>
     final List<DocumentSnapshot> documents = result.docs;
 
     if (documents.isEmpty) {
-      print("Email does not exist in Firestore");
+      print("Email does not exist in our database");
     } else {
-      print("Email exists in Firestore");
-      // You can add any additional logic if the email exists
+      print("Email exists in database");
     }
     setState(() {
       isLoading = false;

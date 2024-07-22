@@ -44,14 +44,14 @@ class Sign_Up_button extends StatelessWidget {
               await authenticateUser(context);
             } catch (e) {
               print(e.toString());
-              Fluttertoast.showToast(
-                msg: 'Login failed. Please try again.',
-                toastLength: Toast.LENGTH_LONG,
-                gravity: ToastGravity.SNACKBAR,
-                backgroundColor: Colors.black54,
-                textColor: Colors.white,
-                fontSize: 14.0,
-              );
+              // Fluttertoast.showToast(
+              //   msg: 'Login failed. Please try again.',
+              //   toastLength: Toast.LENGTH_LONG,
+              //   gravity: ToastGravity.SNACKBAR,
+              //   backgroundColor: Colors.black54,
+              //   textColor: Colors.white,
+              //   fontSize: 14.0,
+              // );
             }
           },
           style: ElevatedButton.styleFrom(

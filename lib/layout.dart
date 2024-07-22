@@ -2,8 +2,8 @@ import 'package:cinema_x/login_and_sign_up_pages/layout/mobile_layout.dart';
 import 'package:cinema_x/login_and_sign_up_pages/layout/tabletlayout.dart';
 import 'package:flutter/material.dart';
 
-class Homeview extends StatelessWidget {
-  const Homeview({super.key});
+class layout extends StatelessWidget {
+  const layout({super.key});
 
   @override
   Widget build(BuildContext context) {
