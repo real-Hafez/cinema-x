@@ -1,14 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cinema_x/home/widgets/logo.dart';
 import 'package:flutter/material.dart';
-import '../models/popular/popular_tmdb.dart';
-import '../ApiConfig.dart';
 
-class trending_backdrop extends StatelessWidget {
-  final popular Popular;
+class TrendingBackdrop extends StatelessWidget {
+  final String imageUrl;
 
-  const trending_backdrop({
+  const TrendingBackdrop({
     super.key,
-    required this.Popular,
+    required this.imageUrl,
   });
 
   @override
@@ -19,7 +18,7 @@ class trending_backdrop extends StatelessWidget {
           width: double.infinity,
           height: MediaQuery.of(context).size.height * 0.5,
           child: CachedNetworkImage(
-            imageUrl: '${ApiConfig.imageBaseUrl}${Popular.backdropPath}',
+            imageUrl: imageUrl,
             progressIndicatorBuilder: (context, url, downloadProgress) =>
                 Center(
               child: CircularProgressIndicator(
@@ -49,22 +48,13 @@ class trending_backdrop extends StatelessWidget {
                 ),
               ),
               child: Text(
-                'watch now ',
+                'Watch Now',
                 style: TextStyle(
                   fontSize: MediaQuery.of(context).size.height * 0.025,
                 ),
               )),
         ),
-        Positioned(
-          top: MediaQuery.of(context).size.height * -0.35,
-          bottom: MediaQuery.of(context).size.width * -0.01,
-          child: Container(
-            width: 100,
-            child: Image.asset(
-              'assets/Images/logo_transpernent.png',
-            ),
-          ),
-        ),
+        const Logo(),
       ],
     );
   }

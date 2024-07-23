@@ -1,29 +1,52 @@
+import 'package:cinema_x/home/ApiConfig.dart';
+import 'package:cinema_x/home/widgets/PageIndicator.dart';
+import 'package:cinema_x/home/widgets/Row_tending_home_view.dart';
+import 'package:cinema_x/home/widgets/tending_backdrop.dart';
 import 'package:flutter/material.dart';
 import '../models/popular/popular_tmdb.dart';
-import 'Row_tending_home_view.dart';
-import 'tending_backdrop.dart';
 
-class first_show_case_popular extends StatelessWidget {
+class FirstShowCasePopular extends StatefulWidget {
   final List<popular> popularList;
 
-  const first_show_case_popular({
+  const FirstShowCasePopular({
     super.key,
     required this.popularList,
   });
 
   @override
+  _FirstShowCasePopularState createState() => _FirstShowCasePopularState();
+}
+
+class _FirstShowCasePopularState extends State<FirstShowCasePopular> {
+  String? selectedImageUrl;
+
+  void _handleImageTap(String imageUrl) {
+    setState(() {
+      selectedImageUrl = imageUrl;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final firstMovie = popularList.isNotEmpty ? popularList[0] : null;
+    final firstMovie =
+        widget.popularList.isNotEmpty ? widget.popularList[0] : null;
 
     return SafeArea(
       child: Column(
         children: [
-          if (firstMovie != null) trending_backdrop(Popular: firstMovie),
+          if (firstMovie != null)
+            TrendingBackdrop(
+              imageUrl: selectedImageUrl ??
+                  '${ApiConfig.imageBaseUrl}${firstMovie.backdropPath}',
+            ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.015,
           ),
-          Row_tending_home_view_under_backdrop(
-            popularList: popularList,
+          Expanded(
+            child: RowTrendingHomeViewUnderBackdrop(
+              popularList: widget.popularList,
+              onImageTap: _handleImageTap,
+            ),
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.015,
@@ -31,58 +54,6 @@ class first_show_case_popular extends StatelessWidget {
           const PageIndicator(8),
         ],
       ),
-    );
-  }
-}
-
-class PageIndicator extends StatefulWidget {
-  final int itemCount;
-
-  const PageIndicator(this.itemCount, {super.key});
-
-  @override
-  _PageIndicatorState createState() => _PageIndicatorState();
-}
-
-class _PageIndicatorState extends State<PageIndicator> {
-  int _currentPage = 0;
-  final PageController _pageController = PageController();
-
-  @override
-  void initState() {
-    super.initState();
-    _pageController.addListener(() {
-      setState(() {
-        _currentPage = _pageController.page!.round();
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: List.generate(widget.itemCount, (index) {
-            return Container(
-              margin: const EdgeInsets.symmetric(horizontal: 10),
-              width: _currentPage == index ? 50 : 10,
-              height: 8,
-              decoration: BoxDecoration(
-                color: _currentPage == index ? Colors.blue : Colors.grey,
-                borderRadius: BorderRadius.circular(4.0),
-              ),
-            );
-          }),
-        ),
-      ],
     );
   }
 }

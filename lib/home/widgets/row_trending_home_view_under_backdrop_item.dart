@@ -3,37 +3,41 @@ import 'package:cinema_x/home/ApiConfig.dart';
 import 'package:cinema_x/home/models/popular/popular_tmdb.dart';
 import 'package:flutter/material.dart';
 
-class row_trending_home_view_under_backdrop_item extends StatelessWidget {
-  const row_trending_home_view_under_backdrop_item({
+class RowTrendingHomeViewUnderBackdropItem extends StatelessWidget {
+  const RowTrendingHomeViewUnderBackdropItem({
     super.key,
     required this.Popular,
+    required this.onImageTap,
   });
+
   final popular Popular;
+  final Function(String) onImageTap;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(
-          horizontal: MediaQuery.of(context).size.width * .005),
+          vertical: MediaQuery.of(context).size.height * .07,
+          horizontal: MediaQuery.of(context).size.height * .005),
       child: GestureDetector(
         onTap: () {
-          print(' ${Popular.video}');
+          onImageTap(
+            '${ApiConfig.imageBaseUrl}${Popular.backdropPath}',
+          );
         },
-        child: Container(
-          child: CachedNetworkImage(
-            imageUrl: '${ApiConfig.imageBaseUrl}${Popular.backdropPath}',
-            fit: BoxFit.scaleDown,
-            progressIndicatorBuilder: (context, url, downloadProgress) =>
-                Center(
-              child: CircularProgressIndicator(
-                value: downloadProgress.progress,
-                valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
-                backgroundColor: Colors.white,
+        child: CachedNetworkImage(
+          imageUrl: '${ApiConfig.imageBaseUrl}${Popular.backdropPath}',
+          fit: BoxFit.scaleDown,
+          progressIndicatorBuilder: (context, url, downloadProgress) => Center(
+            child: CircularProgressIndicator(
+              value: downloadProgress.progress,
+              valueColor: const AlwaysStoppedAnimation<Color>(
+                Colors.blue,
               ),
+              backgroundColor: Colors.white,
             ),
-            errorWidget: (context, url, error) => const Icon(Icons.error),
-            // fit: BoxFit.fill,
           ),
+          errorWidget: (context, url, error) => const Icon(Icons.error),
         ),
       ),
     );

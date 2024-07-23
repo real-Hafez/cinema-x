@@ -21,7 +21,7 @@ class Home extends StatelessWidget {
             return const Center(child: Text('No data available'));
           } else {
             final popularList = snapshot.data!;
-            return first_show_case_popular(popularList: popularList);
+            return FirstShowCasePopular(popularList: popularList);
           }
         },
       ),
