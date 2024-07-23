@@ -29,15 +29,21 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   audioplayers: ^6.0.0
+  build_runner: ^2.4.11
+  cached_network_image: ^3.3.1
   cloud_firestore: ^5.1.0
   cupertino_icons: ^1.0.6
   device_preview: ^1.2.0
+  dio: ^5.5.0+1
   firebase_auth: ^5.1.2
   firebase_core: ^3.2.0
   flutter:
     sdk: flutter
   fluttertoast: ^8.2.6
   get: ^4.6.6
+  http: ^1.2.2
+  json_annotation: ^4.9.0
+  json_serializable: ^6.8.0
   shared_preferences: ^2.2.3
 
 dev_dependencies:
@@ -58,6 +64,7 @@ flutter:
   assets:
     - assets/Images/
     - assets/sounds/
+    - assets/Images/posters_for_genras/
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

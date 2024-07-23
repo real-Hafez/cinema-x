@@ -9,4 +9,3 @@ class mobile_layout extends StatelessWidget {
     return const mobile_layout_body();
   }
 }
-

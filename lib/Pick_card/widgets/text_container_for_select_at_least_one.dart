@@ -1,10 +1,9 @@
 import 'package:cinema_x/Pick_card/models/fav_genre_model.dart';
+import 'package:cinema_x/home/Home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:cinema_x/home/test.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:cinema_x/Pick_card/widgets/all_genres.dart';
 
 class text_container_for_select_at_least_one extends StatefulWidget {
   const text_container_for_select_at_least_one({

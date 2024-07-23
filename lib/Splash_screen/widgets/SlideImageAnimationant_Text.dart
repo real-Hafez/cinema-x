@@ -13,7 +13,13 @@ class SlideImageAnimationant_Text extends StatelessWidget {
     required Animation<Offset> textSlideAnimation,
     required AnimationController sloganController,
     required Animation<Offset> SloganAnimation,
-  }) : _controller = controller, _showFirstAnimation = showFirstAnimation, _scaleAnimation = scaleAnimation, _slideAnimation = slideAnimation, _textSlideAnimation = textSlideAnimation, _sloganController = sloganController, _SloganAnimation = SloganAnimation;
+  })  : _controller = controller,
+        _showFirstAnimation = showFirstAnimation,
+        _scaleAnimation = scaleAnimation,
+        _slideAnimation = slideAnimation,
+        _textSlideAnimation = textSlideAnimation,
+        _sloganController = sloganController,
+        _SloganAnimation = SloganAnimation;
 
   final AnimationController _controller;
   final bool _showFirstAnimation;

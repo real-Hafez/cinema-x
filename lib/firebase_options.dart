@@ -64,7 +64,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '564330720671',
     projectId: 'cinema-x-fcbbd',
     storageBucket: 'cinema-x-fcbbd.appspot.com',
-    iosClientId: '564330720671-neaf99oap020ct5pumv4lvorspt1fvca.apps.googleusercontent.com',
+    iosClientId:
+        '564330720671-neaf99oap020ct5pumv4lvorspt1fvca.apps.googleusercontent.com',
     iosBundleId: 'com.example.cinemax',
   );
 
@@ -74,7 +75,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '564330720671',
     projectId: 'cinema-x-fcbbd',
     storageBucket: 'cinema-x-fcbbd.appspot.com',
-    iosClientId: '564330720671-neaf99oap020ct5pumv4lvorspt1fvca.apps.googleusercontent.com',
+    iosClientId:
+        '564330720671-neaf99oap020ct5pumv4lvorspt1fvca.apps.googleusercontent.com',
     iosBundleId: 'com.example.cinemax',
   );
 
