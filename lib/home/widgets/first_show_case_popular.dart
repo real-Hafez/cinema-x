@@ -19,10 +19,12 @@ class FirstShowCasePopular extends StatefulWidget {
 
 class _FirstShowCasePopularState extends State<FirstShowCasePopular> {
   String? selectedImageUrl;
+  int currentPage = 0;
 
-  void _handleImageTap(String imageUrl) {
+  void _handleImageTap(String imageUrl, int index) {
     setState(() {
       selectedImageUrl = imageUrl;
+      currentPage = index;
     });
   }
 
@@ -47,13 +49,23 @@ class _FirstShowCasePopularState extends State<FirstShowCasePopular> {
             width: double.infinity,
             child: RowTrendingHomeViewUnderBackdrop(
               popularList: widget.popularList,
-              onImageTap: _handleImageTap,
+              onImageTap: (imageUrl) {
+                setState(() {
+                  selectedImageUrl = imageUrl;
+                  currentPage = widget.popularList.indexWhere((popular) =>
+                      '${ApiConfig.imageBaseUrl}${popular.backdropPath}' ==
+                      imageUrl);
+                });
+              },
             ),
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.015,
           ),
-          const PageIndicator(8),
+          PageIndicator(
+            itemCount: 8,
+            currentPage: currentPage,
+          ),
         ],
       ),
     );

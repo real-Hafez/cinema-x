@@ -15,7 +15,7 @@ class RowTrendingHomeViewUnderBackdrop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 50,
+      height: MediaQuery.of(context).size.height * 0.5,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: 8,
@@ -23,7 +23,11 @@ class RowTrendingHomeViewUnderBackdrop extends StatelessWidget {
         itemBuilder: (context, index) {
           return RowTrendingHomeViewUnderBackdropItem(
             Popular: popularList[index],
-            onImageTap: onImageTap,
+            onImageTap: (imageUrl) {
+              onImageTap(
+                imageUrl,
+              );
+            },
           );
         },
       ),
