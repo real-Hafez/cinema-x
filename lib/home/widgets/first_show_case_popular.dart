@@ -44,7 +44,7 @@ class _FirstShowCasePopularState extends State<FirstShowCasePopular> {
   }
 
   void _startAutoChange() {
-    _timer = Timer.periodic(const Duration(seconds: 90), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 7), (timer) {
       setState(() {
         currentPage = (currentPage + 1) % 8;
         selectedImageUrl =
