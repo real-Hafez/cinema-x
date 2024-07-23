@@ -7,13 +7,14 @@ class Logo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      top: MediaQuery.of(context).size.height * -0.35,
-      bottom: MediaQuery.of(context).size.width * -0.01,
-      child: Container(
-        width: 100,
-        child: Image.asset(
-          'assets/Images/logo_transpernent.png',
+    return SafeArea(
+      child: Align(
+        alignment: Alignment.center,
+        child: Container(
+          width: MediaQuery.of(context).size.width * .19,
+          child: Image.asset(
+            'assets/Images/logo_transpernent.png',
+          ),
         ),
       ),
     );

@@ -29,6 +29,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   audioplayers: ^6.0.0
+  auto_size_text: ^3.0.0
   build_runner: ^2.4.11
   cached_network_image: ^3.3.1
   cloud_firestore: ^5.1.0
@@ -44,6 +45,7 @@ dependencies:
   http: ^1.2.2
   json_annotation: ^4.9.0
   json_serializable: ^6.8.0
+  palette_generator: ^0.3.3+4
   provider: ^6.1.2
   shared_preferences: ^2.2.3
 

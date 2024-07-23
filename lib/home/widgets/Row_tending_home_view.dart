@@ -4,7 +4,7 @@ import 'row_trending_home_view_under_backdrop_item.dart';
 
 class RowTrendingHomeViewUnderBackdrop extends StatelessWidget {
   final List<popular> popularList;
-  final Function(String) onImageTap;
+  final Function(String, String) onImageTap;
 
   const RowTrendingHomeViewUnderBackdrop({
     super.key,
@@ -15,7 +15,7 @@ class RowTrendingHomeViewUnderBackdrop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.5,
+      height: MediaQuery.of(context).size.height * 0.08,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: 8,
@@ -24,9 +24,9 @@ class RowTrendingHomeViewUnderBackdrop extends StatelessWidget {
           return RowTrendingHomeViewUnderBackdropItem(
             Popular: popularList[index],
             onImageTap: (imageUrl) {
-              onImageTap(
-                imageUrl,
-              );
+              final nameOrTitle =
+                  popularList[index].title ?? popularList[index].name!;
+              onImageTap(imageUrl, nameOrTitle);
             },
           );
         },
