@@ -17,8 +17,9 @@ class RowTrendingHomeViewUnderBackdropItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(
-          vertical: MediaQuery.of(context).size.height * .07,
-          horizontal: MediaQuery.of(context).size.height * .005),
+        //  vertical: MediaQuery.of(context).size.height * .07,
+        horizontal: MediaQuery.of(context).size.height * .005,
+      ),
       child: GestureDetector(
         onTap: () {
           onImageTap(

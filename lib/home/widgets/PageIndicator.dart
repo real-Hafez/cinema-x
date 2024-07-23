@@ -38,7 +38,7 @@ class _PageIndicatorState extends State<PageIndicator> {
           children: List.generate(widget.itemCount, (index) {
             return Container(
               margin: const EdgeInsets.symmetric(horizontal: 5),
-              width: _currentPage == index ? 30 : 10, 
+              width: _currentPage == index ? 30 : 10,
               height: 8,
               decoration: BoxDecoration(
                 color: _currentPage == index ? Colors.blue : Colors.grey,

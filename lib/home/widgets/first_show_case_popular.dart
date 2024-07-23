@@ -42,7 +42,9 @@ class _FirstShowCasePopularState extends State<FirstShowCasePopular> {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.015,
           ),
-          Expanded(
+          Container(
+            height: MediaQuery.of(context).size.height * 0.08,
+            width: double.infinity,
             child: RowTrendingHomeViewUnderBackdrop(
               popularList: widget.popularList,
               onImageTap: _handleImageTap,
