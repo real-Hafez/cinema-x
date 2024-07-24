@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cinema_x/home/ApiConfig.dart';
-import 'package:cinema_x/home/models/popular/popular_tmdb.dart';
+import 'package:cinema_x/backdrop_poster_for_popular/ApiConfig.dart';
+import 'package:cinema_x/backdrop_poster_for_popular/models/popular/popular_tmdb.dart';
 import 'package:flutter/material.dart';
 
 class RowTrendingHomeViewUnderBackdropItem extends StatelessWidget {

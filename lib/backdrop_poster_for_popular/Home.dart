@@ -1,5 +1,6 @@
+import 'package:cinema_x/for_you_row/widgets/for_you_row.dart';
 import 'package:flutter/material.dart';
-import 'package:cinema_x/home/widgets/Builder_for_first_popular_in_app.dart';
+import 'package:cinema_x/backdrop_poster_for_popular/widgets/Builder_for_first_popular_in_app.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:io';
 
@@ -72,11 +73,18 @@ class _HomeState extends State<Home> {
 
     return const Scaffold(
       backgroundColor: Color(0xff090E17),
-      body: Column(
-        children: [
-          Builder_for_first_popular_in_app(),
-        ],
+      body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        scrollDirection: Axis.vertical,
+        child: Column(
+          children: [
+            backdrop_poster_for_popular(),
+            SizedBox(height: 20),
+            for_you_row(),
+          ],
+        ),
       ),
     );
   }
 }
+

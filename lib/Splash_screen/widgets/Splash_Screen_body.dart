@@ -1,5 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
-import 'package:cinema_x/home/Home.dart';
+import 'package:cinema_x/backdrop_poster_for_popular/Home.dart';
 import 'package:cinema_x/layout.dart';
 import 'package:cinema_x/Pick_card/screen/pick_faviourite_genre.dart';
 import 'package:cinema_x/Splash_screen/widgets/SlideImageAnimationant_Text.dart';

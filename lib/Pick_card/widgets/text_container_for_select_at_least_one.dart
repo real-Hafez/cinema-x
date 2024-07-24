@@ -1,5 +1,5 @@
 import 'package:cinema_x/Pick_card/models/fav_genre_model.dart';
-import 'package:cinema_x/home/Home.dart';
+import 'package:cinema_x/backdrop_poster_for_popular/Home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +48,7 @@ class _text_container_for_select_at_least_oneState
               'name': genre.name,
               'photo': genre.photo,
               'genre': genre.genra,
-              'id': genre.id,
+              'id': genre.id_movies,
             })
         .toList();
 

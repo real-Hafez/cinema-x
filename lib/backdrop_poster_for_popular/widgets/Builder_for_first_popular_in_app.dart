@@ -1,10 +1,10 @@
-import 'package:cinema_x/home/models/popular/popular_tmdb.dart';
-import 'package:cinema_x/home/service/popular_service.dart';
-import 'package:cinema_x/home/widgets/first_show_case_popular.dart';
+import 'package:cinema_x/backdrop_poster_for_popular/models/popular/popular_tmdb.dart';
+import 'package:cinema_x/backdrop_poster_for_popular/service/popular_service.dart';
+import 'package:cinema_x/backdrop_poster_for_popular/widgets/first_show_case_popular.dart';
 import 'package:flutter/material.dart';
 
-class Builder_for_first_popular_in_app extends StatelessWidget {
-  const Builder_for_first_popular_in_app({
+class backdrop_poster_for_popular extends StatelessWidget {
+  const backdrop_poster_for_popular({
     super.key,
   });
 

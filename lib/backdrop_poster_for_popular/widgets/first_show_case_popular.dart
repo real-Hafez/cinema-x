@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:cinema_x/home/ApiConfig.dart';
-import 'package:cinema_x/home/widgets/PageIndicator.dart';
-import 'package:cinema_x/home/widgets/Row_tending_home_view.dart';
-import 'package:cinema_x/home/widgets/tending_backdrop.dart';
+import 'package:cinema_x/backdrop_poster_for_popular/ApiConfig.dart';
+import 'package:cinema_x/backdrop_poster_for_popular/widgets/PageIndicator.dart';
+import 'package:cinema_x/backdrop_poster_for_popular/widgets/Row_tending_home_view.dart';
+import 'package:cinema_x/backdrop_poster_for_popular/widgets/tending_backdrop.dart';
 import 'package:flutter/material.dart';
 import '../models/popular/popular_tmdb.dart';
 
