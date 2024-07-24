@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:cinema_x/backdrop_poster_for_popular/ApiConfig.dart';
+import 'package:cinema_x/ApiConfig.dart';
 import 'package:cinema_x/backdrop_poster_for_popular/models/popular/popular_tmdb.dart';
 import 'package:http/http.dart' as http;
 

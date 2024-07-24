@@ -106,7 +106,7 @@ class _Splash_Screen_bodyState extends State<Splash_Screen_body>
         final List<DocumentSnapshot> documents = result.docs;
 
         if (documents.isEmpty) {
-          print("Email does not exist in Firestore");
+          //       print("Email does not exist in Firestore");
           Get.off(
             transition: Transition.fadeIn,
             () => const Home(),
@@ -216,7 +216,7 @@ class _Splash_Screen_bodyState extends State<Splash_Screen_body>
     final List<DocumentSnapshot> documents = result.docs;
 
     if (documents.isEmpty) {
-      print("Email does not exist in our database");
+      //  print("Email does not exist in our database");
     } else {
       print("Email exists in database");
     }
