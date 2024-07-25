@@ -12,11 +12,14 @@ class for_you_row extends StatelessWidget {
       width: double.infinity,
       child: Column(
         children: [
-          const for_you_row_body(),
+          const ForYouRowBody(),
           SizedBox(
             height: MediaQuery.of(context).size.height * .02,
           ),
-          const Expanded(child: for_you_item()),
+          const Expanded(
+              child: for_you_item(
+            showAll: true,
+          )),
         ],
       ),
     );

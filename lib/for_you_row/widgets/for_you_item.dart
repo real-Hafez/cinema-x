@@ -5,7 +5,8 @@ import 'package:cinema_x/for_you_row/service/for_you_service_movies.dart';
 import 'package:flutter/material.dart';
 
 class for_you_item extends StatefulWidget {
-  const for_you_item({super.key});
+  const for_you_item({super.key, this.showAll = false});
+  final bool showAll;
 
   @override
   State<for_you_item> createState() => _for_you_itemState();
