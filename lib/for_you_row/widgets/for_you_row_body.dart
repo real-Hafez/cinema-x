@@ -1,11 +1,31 @@
-import 'package:cinema_x/for_you_row/service/for_you_service_movies.dart';
 import 'package:cinema_x/for_you_row/widgets/see_all_button.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:cinema_x/for_you_row/widgets/for_you_item.dart';
+import 'package:cinema_x/for_you_row/service/for_you_service_movies.dart';
+import 'package:cinema_x/for_you_row/model/for_you_model_movies.dart';
 
-class ForYouRowBody extends StatelessWidget {
-  const ForYouRowBody({super.key});
+class for_you_row_body extends StatefulWidget {
+  const for_you_row_body({super.key});
+
+  @override
+  _for_you_row_bodyState createState() => _for_you_row_bodyState();
+}
+
+class _for_you_row_bodyState extends State<for_you_row_body> {
+  List<for_you_model_movies> movies = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchMovies();
+  }
+
+  void fetchMovies() async {
+    final service = for_you_service_movies();
+    final fetchedMovies = await service.fetchMovies(1);
+    setState(() {
+      movies = fetchedMovies;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,12 +61,11 @@ class ForYouRowBody extends StatelessWidget {
                       MediaQuery.of(context).size.width * .09),
                   splashColor: Colors.blueAccent.withOpacity(0.2),
                   highlightColor: Colors.blue.withOpacity(0.1),
-                  onTap: () async {
-                    final movies =
-                        await for_you_service_movies().fetchMovies(1);
-                    Get.to(() => const SeeAllButton(
-                          movies: [],
-                          // showAll: true,
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SeeAllButton(movies: movies),
                         ));
                   },
                   child: Text(

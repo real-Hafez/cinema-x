@@ -12,7 +12,7 @@ class for_you_row extends StatelessWidget {
       width: double.infinity,
       child: Column(
         children: [
-          const ForYouRowBody(),
+          const for_you_row_body(),
           SizedBox(
             height: MediaQuery.of(context).size.height * .02,
           ),
