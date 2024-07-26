@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:cinema_x/ApiConfig.dart';
-import 'package:cinema_x/tending_peoble_movies_series/models/Person_Model.dart';
+import 'package:cinema_x/Popular_peoble_movies_series/models/Person_Model.dart';
 import 'package:http/http.dart' as http;
 
 class PersonService {

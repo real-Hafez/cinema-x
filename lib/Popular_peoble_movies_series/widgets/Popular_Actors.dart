@@ -1,8 +1,6 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cinema_x/ApiConfig.dart';
-import 'package:cinema_x/tending_peoble_movies_series/models/Person_Model.dart';
+import 'package:cinema_x/Popular_peoble_movies_series/models/Person_Model.dart';
 import 'package:flutter/material.dart';
 
 class PopularActors extends StatelessWidget {

@@ -17,8 +17,8 @@ class ForYouPopular extends StatelessWidget {
             alignment: Alignment.centerLeft,
             child: Padding(
               padding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * .02,
-                  ),
+                left: MediaQuery.of(context).size.width * .02,
+              ),
               child: AnimatedTextKit(
                 animatedTexts: [
                   TypewriterAnimatedText(

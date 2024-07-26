@@ -1,7 +1,7 @@
 import 'package:cinema_x/backdrop_poster_for_popular_and_For_you_movies_and_series/widgets/Builder_for_first_popular_in_app.dart';
 import 'package:cinema_x/for_you_row/widgets/for_you_row.dart';
 import 'package:cinema_x/for_you_row/widgets/for_you_row_body.dart';
-import 'package:cinema_x/tending_peoble_movies_series/widgets/trending_coulm.dart';
+import 'package:cinema_x/Popular_peoble_movies_series/widgets/trending_coulm.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:cinema_x/for_you_row/service/for_you_service_movies.dart';
