@@ -1,5 +1,5 @@
 import 'package:cinema_x/Pick_card/models/fav_genre_model.dart';
-import 'package:cinema_x/backdrop_poster_for_popular/Home.dart';
+import 'package:cinema_x/Home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';

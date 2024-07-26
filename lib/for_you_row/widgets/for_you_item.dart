@@ -22,7 +22,7 @@ class _for_you_itemState extends State<for_you_item> {
     futureMovies = Future.value([]);
 
     movieService.printUserEmail().then((_) {
-      if (movieService.Fav_movies_list.isNotEmpty) {
+      if (movieService.favMoviesList.isNotEmpty) {
         setState(() {
           futureMovies = movieService.fetchMovies(1);
         });
@@ -56,12 +56,13 @@ class _for_you_itemState extends State<for_you_item> {
                 childAspectRatio: 1.2,
               ),
               physics: const BouncingScrollPhysics(),
-              itemCount: movies.length.clamp(0, 7),
+              itemCount: movies.length,
               itemBuilder: (BuildContext context, int index) {
                 final movie = movies[index];
                 return Padding(
                   padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * .03),
+                      horizontal: MediaQuery.of(context).size.width * .03,
+                      vertical: MediaQuery.of(context).size.width * .0),
                   child: CachedNetworkImage(
                     imageUrl: '${ApiConfig.imageBaseUrl}${movie.posterPath}',
                     progressIndicatorBuilder:
@@ -75,7 +76,7 @@ class _for_you_itemState extends State<for_you_item> {
                     ),
                     errorWidget: (context, url, error) =>
                         const Icon(Icons.error),
-                    fit: BoxFit.fitWidth,
+                    fit: BoxFit.fill,
                     alignment: Alignment.center,
                   ),
                 );

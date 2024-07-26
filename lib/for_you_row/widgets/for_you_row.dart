@@ -13,10 +13,10 @@ class for_you_row extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           const for_you_row_body(
-            text_for_row_or_movie: 'For You',
+            text_for_row_or_movie: 'Movies For You',
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height * .3,
+            height: MediaQuery.of(context).size.height * .35,
             child: const for_you_item(
               showAll: true,
             ),
@@ -25,13 +25,13 @@ class for_you_row extends StatelessWidget {
             height: MediaQuery.of(context).size.height * .02,
           ),
           const for_you_row_body(
-            text_for_row_or_movie: 'Trending series this week ',
+            text_for_row_or_movie: 'series For You ',
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height * .02,
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height * .3,
+            height: MediaQuery.of(context).size.height * .35,
             child: const for_you_item_series(
               showAll: true,
             ),

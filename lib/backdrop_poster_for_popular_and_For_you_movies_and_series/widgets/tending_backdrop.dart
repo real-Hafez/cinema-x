@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cinema_x/backdrop_poster_for_popular/widgets/Logo.dart';
-import 'package:cinema_x/backdrop_poster_for_popular/widgets/watch_now_button.dart';
+import 'package:cinema_x/backdrop_poster_for_popular_and_For_you_movies_and_series/widgets/Logo.dart';
+import 'package:cinema_x/backdrop_poster_for_popular_and_For_you_movies_and_series/widgets/watch_now_button.dart';
 import 'package:flutter/material.dart';
 
 class TrendingBackdrop extends StatelessWidget {

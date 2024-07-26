@@ -105,7 +105,7 @@ class _for_you_item_seriesState extends State<for_you_item_series> {
                         ),
                         errorWidget: (context, url, error) =>
                             const Icon(Icons.error),
-                        fit: BoxFit.fitWidth,
+                        fit: BoxFit.fill,
                         alignment: Alignment.center,
                       ),
                     );

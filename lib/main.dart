@@ -27,7 +27,7 @@ Future<void> main() async {
   final forYouServiceseries = for_you_service_series();
   await forYouServiceseries.printUserEmail();
 
-  if (forYouService.Fav_movies_list.isNotEmpty) {
+  if (forYouService.favMoviesList.isNotEmpty) {
     await forYouService.fetchMovies(1);
   } else {
     print('No favorite genres available to fetch movies.');

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 import 'package:cinema_x/ApiConfig.dart';
 import 'package:cinema_x/for_you_row/model/for_you_model_movies.dart';
@@ -15,19 +16,36 @@ class for_you_service_movies {
   }
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final List<int> Fav_movies_list = [];
+  final List<int> favMoviesList = [];
   final Random _random = Random();
+
+  Future<bool> _checkConnection() async {
+    try {
+      final result = await InternetAddress.lookup('example.com');
+      return result.isNotEmpty && result[0].rawAddress.isNotEmpty;
+    } on SocketException catch (_) {
+      return false;
+    }
+  }
+
+  Future<bool> checkConnection() {
+    return _checkConnection();
+  }
 
   Future<List<for_you_model_movies>> fetchMovies(int page) async {
     print('fetchMovies called');
-    if (Fav_movies_list.isEmpty) {
+    if (favMoviesList.isEmpty) {
       print('Favorite genres list is empty. Cannot fetch movies.');
       return [];
     }
 
-    // Select a random genre from the Fav_movies_list
-    final randomGenreId =
-        Fav_movies_list[_random.nextInt(Fav_movies_list.length)];
+    final hasInternet = await _checkConnection();
+    if (!hasInternet) {
+      print('No internet connection');
+      //  throw Exception('No internet connection');
+    }
+
+    final randomGenreId = favMoviesList[_random.nextInt(favMoviesList.length)];
     print('Selected random genre ID: $randomGenreId');
 
     final url =
@@ -35,7 +53,7 @@ class for_you_service_movies {
     print('Request URL: $url');
 
     final response = await http.get(Uri.parse(url));
-    print('Response status code:Firestore ${response.statusCode}');
+    print('Response status code: ${response.statusCode}');
 
     if (response.statusCode == 200) {
       print('Response: ${response.body}');
@@ -69,23 +87,23 @@ class for_you_service_movies {
 
         final List<dynamic>? favGenres = data?['fav_genres'];
         if (favGenres != null && favGenres.isNotEmpty) {
-          Fav_movies_list.clear();
+          favMoviesList.clear();
           for (var genre in favGenres) {
             final int genreId = genre['id'];
-            Fav_movies_list.add(genreId);
+            favMoviesList.add(genreId);
           }
-          print('Favorite genres IDs: ${Fav_movies_list.join(',')}');
+          print('Favorite genres IDs: ${favMoviesList.join(',')}');
 
           // Randomly select two different indices
-          final firstIndex = _random.nextInt(Fav_movies_list.length);
+          final firstIndex = _random.nextInt(favMoviesList.length);
           int secondIndex;
           do {
-            secondIndex = _random.nextInt(Fav_movies_list.length);
+            secondIndex = _random.nextInt(favMoviesList.length);
           } while (secondIndex == firstIndex);
 
           // Get the genres from the random indices
           final selectedGenres =
-              '${Fav_movies_list[firstIndex]},${Fav_movies_list[secondIndex]}';
+              '${favMoviesList[firstIndex]},${favMoviesList[secondIndex]}';
           print('Selected genres IDs: $selectedGenres');
         } else {
           print('No genres found in the list.');

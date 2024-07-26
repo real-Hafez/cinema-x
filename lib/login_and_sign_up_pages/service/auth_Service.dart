@@ -1,5 +1,5 @@
 import 'package:cinema_x/Pick_card/screen/pick_faviourite_genre.dart';
-import 'package:cinema_x/backdrop_poster_for_popular/Home.dart';
+import 'package:cinema_x/Home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';

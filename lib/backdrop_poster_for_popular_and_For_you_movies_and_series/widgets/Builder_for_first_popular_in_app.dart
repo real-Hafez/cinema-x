@@ -1,6 +1,6 @@
-import 'package:cinema_x/backdrop_poster_for_popular/models/popular/popular_tmdb.dart';
-import 'package:cinema_x/backdrop_poster_for_popular/service/popular_service.dart';
-import 'package:cinema_x/backdrop_poster_for_popular/widgets/first_show_case_popular.dart';
+import 'package:cinema_x/backdrop_poster_for_popular_and_For_you_movies_and_series/models/popular/popular_tmdb.dart';
+import 'package:cinema_x/backdrop_poster_for_popular_and_For_you_movies_and_series/service/popular_service.dart';
+import 'package:cinema_x/backdrop_poster_for_popular_and_For_you_movies_and_series/widgets/first_show_case_popular.dart';
 import 'package:flutter/material.dart';
 
 class backdrop_poster_for_popular extends StatelessWidget {
