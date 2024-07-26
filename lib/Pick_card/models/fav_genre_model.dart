@@ -3,7 +3,7 @@ class FavGenre {
   final String photo;
   final String genra;
   final int id_movies;
-  final int id_tvseries;
+  final int? id_tvseries;
 
   FavGenre({
     required this.name,
