@@ -17,46 +17,71 @@ class TrendingCoulm extends StatefulWidget {
 
 class _TrendingCoulmState extends State<TrendingCoulm> {
   late Future<List<Person_Model>> _personModelFuture;
-  late Future<List<Popular_Movies_model>> _Popular_movies;
+  late Future<List<Popular_Movies_model>> _popularMoviesFuture;
 
   @override
   void initState() {
     super.initState();
     _personModelFuture = PersonService().getPerson();
-    _Popular_movies = Popular_Movies_Service().getPopularMovies();
+    _popularMoviesFuture = Popular_Movies_Service().getPopularMovies();
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Person_Model>>(
       future: _personModelFuture,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
+      builder: (context, personSnapshot) {
+        if (personSnapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        } else if (snapshot.hasData) {
-          final personModelList = snapshot.data!;
-          return Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width * .015),
-                child: const ForYouPopular(
-                  textForRowOrMovie: 'Top Trending Actors',
-                ),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * .01,
-              ),
-              PopularActors(
-                personModel: personModelList,
-              ),
-              const ForYouPopular_movies(
-                textForRowOrMovie: 'Popular Movies Now',
-              ),
-              //  Popularmovies(popular_movie: ),
-            ],
+        } else if (personSnapshot.hasError) {
+          return Center(child: Text('Error: ${personSnapshot.error}'));
+        } else if (personSnapshot.hasData) {
+          final personModelList = personSnapshot.data!;
+
+          return FutureBuilder<List<Popular_Movies_model>>(
+            future: _popularMoviesFuture,
+            builder: (context, moviesSnapshot) {
+              if (moviesSnapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (moviesSnapshot.hasError) {
+                return Center(child: Text('Error: ${moviesSnapshot.error}'));
+              } else if (moviesSnapshot.hasData) {
+                final popularMoviesList = moviesSnapshot.data!;
+
+                return Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: MediaQuery.of(context).size.width * .015),
+                      child: const ForYouPopular(
+                        textForRowOrMovie: 'Top Trending Actors',
+                      ),
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * .01,
+                    ),
+                    PopularActors(
+                      personModel: personModelList,
+                    ),
+                    const ForYouPopular_movies(
+                      textForRowOrMovie: 'Popular Movies Now',
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.height * .02),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * .36,
+                      child: Popularmovies(
+                        popular_movie: popularMoviesList,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 100,
+                    )
+                  ],
+                );
+              } else {
+                return const Center(child: Text('No data available'));
+              }
+            },
           );
         } else {
           return const Center(child: Text('No data available'));
