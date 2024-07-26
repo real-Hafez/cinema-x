@@ -15,8 +15,7 @@ class ModelBottomSheetForgetPassword extends StatelessWidget {
         bottom: MediaQuery.of(context).viewInsets.bottom,
       ),
       child: Column(
-        mainAxisSize: MainAxisSize
-            .min, // Make sure Column is not taking all available height
+        mainAxisSize: MainAxisSize.min,
         children: [
           ElevatedButton(
             style: ButtonStyle(

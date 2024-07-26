@@ -70,7 +70,8 @@ class _pick_faviourite_genreState extends State<pick_faviourite_genre> {
 
   @override
   Widget build(BuildContext context) {
-    bool atLeastOneSelected = selections.contains(true);
+    bool atLeastThreeSelected =
+        selections.where((selected) => selected).length >= 3;
 
     return Scaffold(
       backgroundColor: const Color(0xff090E17),
@@ -117,7 +118,7 @@ class _pick_faviourite_genreState extends State<pick_faviourite_genre> {
                     ],
                   ),
                   text_container_for_select_at_least_one(
-                      atLeastOneSelected: atLeastOneSelected,
+                      atLeastThreeSelected: atLeastThreeSelected,
                       selectedGenres: _getSelectedGenres())
                 ],
               ),

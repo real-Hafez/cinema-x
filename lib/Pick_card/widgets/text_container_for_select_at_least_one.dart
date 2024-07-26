@@ -8,11 +8,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 class text_container_for_select_at_least_one extends StatefulWidget {
   const text_container_for_select_at_least_one({
     super.key,
-    required this.atLeastOneSelected,
+    required this.atLeastThreeSelected,
     required this.selectedGenres,
   });
 
-  final bool atLeastOneSelected;
+  final bool atLeastThreeSelected;
   final List<FavGenre> selectedGenres;
 
   @override
@@ -49,6 +49,7 @@ class _text_container_for_select_at_least_oneState
               'photo': genre.photo,
               'genre': genre.genra,
               'id': genre.id_movies,
+              'id_series': genre.id_tvseries,
             })
         .toList();
 
@@ -68,7 +69,7 @@ class _text_container_for_select_at_least_oneState
       right: 20,
       child: GestureDetector(
         onTap: () async {
-          if (widget.atLeastOneSelected) {
+          if (widget.atLeastThreeSelected) {
             await addUser();
             Navigator.push(
               context,
@@ -76,7 +77,7 @@ class _text_container_for_select_at_least_oneState
             );
           } else {
             Fluttertoast.showToast(
-              msg: 'Please choose at least one genre',
+              msg: 'Please choose at least three genres',
               toastLength: Toast.LENGTH_LONG,
               gravity: ToastGravity.SNACKBAR,
               backgroundColor: Colors.black54,
@@ -90,7 +91,7 @@ class _text_container_for_select_at_least_oneState
             vertical: 10,
             horizontal: 20,
           ),
-          decoration: widget.atLeastOneSelected
+          decoration: widget.atLeastThreeSelected
               ? BoxDecoration(
                   color: Colors.blue,
                   borderRadius: BorderRadius.circular(25),
@@ -101,8 +102,8 @@ class _text_container_for_select_at_least_oneState
                 ),
           child: Center(
             child: Text(
-              widget.atLeastOneSelected ? 'Done' : 'Select at Least 1',
-              style: widget.atLeastOneSelected
+              widget.atLeastThreeSelected ? 'Done' : 'Select at Least 3',
+              style: widget.atLeastThreeSelected
                   ? TextStyle(
                       color: Colors.white,
                       fontSize: MediaQuery.of(context).size.width * .05,

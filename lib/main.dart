@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:cinema_x/Splash_screen/screen/splash_screen.dart';
 import 'package:cinema_x/firebase_options.dart';
 import 'package:cinema_x/for_you_row/service/for_you_service_movies.dart';
+import 'package:cinema_x/for_you_row/service/for_you_service_series.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -21,16 +22,21 @@ Future<void> main() async {
   );
 
   final forYouService = for_you_service_movies();
-
   await forYouService.printUserEmail();
 
-  // Fetch movies only after ensuring favorite genres are loaded
+  final forYouServiceseries = for_you_service_series();
+  await forYouServiceseries.printUserEmail();
+
   if (forYouService.Fav_movies_list.isNotEmpty) {
     await forYouService.fetchMovies(1);
   } else {
     print('No favorite genres available to fetch movies.');
   }
-
+  if (forYouServiceseries.Fav_series_list.isNotEmpty) {
+    await forYouServiceseries.fetchseries(1);
+  } else {
+    print('No favorite genres available to fetch movies.');
+  }
   FlutterError.onError = (errorDetails) {
     FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
   };

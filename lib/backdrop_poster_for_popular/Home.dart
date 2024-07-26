@@ -1,6 +1,8 @@
-import 'package:cinema_x/for_you_row/widgets/for_you_row.dart';
-import 'package:flutter/material.dart';
 import 'package:cinema_x/backdrop_poster_for_popular/widgets/Builder_for_first_popular_in_app.dart';
+import 'package:cinema_x/for_you_row/widgets/for_you_item_Series.dart';
+import 'package:cinema_x/for_you_row/widgets/for_you_row.dart';
+import 'package:cinema_x/for_you_row/widgets/for_you_row_body.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:io';
 
@@ -14,6 +16,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   bool _hasInternet = false;
   bool _loading = true;
+  bool _toastShown = false; // Added flag for toast
 
   @override
   void initState() {
@@ -26,6 +29,16 @@ class _HomeState extends State<Home> {
     setState(() {
       _hasInternet = hasInternet;
       _loading = false;
+      if (!_hasInternet && !_toastShown) {
+        Fluttertoast.showToast(
+          msg: "No internet connection",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+          fontSize: 28,
+          textColor: Colors.white,
+        );
+        _toastShown = true;
+      }
     });
   }
 
@@ -50,13 +63,6 @@ class _HomeState extends State<Home> {
     }
 
     if (!_hasInternet) {
-      Fluttertoast.showToast(
-        msg: "No internet connection",
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.CENTER,
-        fontSize: 28,
-        textColor: Colors.white,
-      );
       return const Scaffold(
         backgroundColor: Color(0xff090E17),
         body: Center(
@@ -71,20 +77,21 @@ class _HomeState extends State<Home> {
       );
     }
 
-    return const Scaffold(
-      backgroundColor: Color(0xff090E17),
+    return Scaffold(
+      backgroundColor: const Color(0xff090E17),
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         scrollDirection: Axis.vertical,
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            backdrop_poster_for_popular(),
-            SizedBox(height: 20),
-            for_you_row(),
+            const backdrop_poster_for_popular(),
+            const SizedBox(height: 20),
+            const for_you_row(),
+          
           ],
         ),
       ),
     );
   }
 }
-

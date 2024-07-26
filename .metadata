@@ -9,7 +9,7 @@ version:
 
 project_type: app
 
-# Tracks metadata for the flutter migrate command
+# Tracks metadata for the flutter s migrate command
 migration:
   platforms:
     - platform: root

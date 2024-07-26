@@ -1,4 +1,5 @@
 import 'package:cinema_x/for_you_row/widgets/for_you_item.dart';
+import 'package:cinema_x/for_you_row/widgets/for_you_item_Series.dart';
 import 'package:cinema_x/for_you_row/widgets/for_you_row_body.dart';
 import 'package:flutter/material.dart';
 
@@ -8,18 +9,36 @@ class for_you_row extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * .35,
-      width: double.infinity,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          const for_you_row_body(),
+          const for_you_row_body(
+            text_for_row_or_movie: 'For You',
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * .3,
+            child: const for_you_item(
+              showAll: true,
+            ),
+          ),
           SizedBox(
             height: MediaQuery.of(context).size.height * .02,
           ),
-          const Expanded(
-              child: for_you_item(
-            showAll: true,
-          )),
+          const for_you_row_body(
+            text_for_row_or_movie: 'Trending series this week ',
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * .02,
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * .3,
+            child: const for_you_item_series(
+              showAll: true,
+            ),
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * .02,
+          ),
         ],
       ),
     );

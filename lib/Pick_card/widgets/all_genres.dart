@@ -43,7 +43,7 @@ final List<FavGenre> favgenres = [
       photo: 'assets/Images/posters_for_genras/Drama.jpg',
       genra: 'drama',
       id_movies: 18,
-      id_tvseries: 18), // Same ID for TV series
+      id_tvseries: 18), 
   FavGenre(
       name: 'Family',
       photo: 'assets/Images/posters_for_genras/Family.jpg',

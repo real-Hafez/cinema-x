@@ -71,6 +71,8 @@ class _FirstShowCasePopularState extends State<FirstShowCasePopular> {
         widget.popularList.isNotEmpty ? widget.popularList[0] : null;
 
     return Column(
+                  mainAxisSize: MainAxisSize.min,
+
       children: [
         if (firstMovie != null)
           TrendingBackdrop(
