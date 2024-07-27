@@ -2,8 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
 class ForYouPopular_movies extends StatefulWidget {
-  const ForYouPopular_movies({super.key, required this.textForRowOrMovie});
+  const ForYouPopular_movies(
+      {super.key,
+      required this.textForRowOrMovie,
+      required this.textnumber2,
+      required this.textnumber3});
   final String textForRowOrMovie;
+  final String textnumber2;
+  final String textnumber3;
 
   @override
   _ForYouPopular_moviesState createState() => _ForYouPopular_moviesState();
@@ -74,7 +80,7 @@ class _ForYouPopular_moviesState extends State<ForYouPopular_movies> {
                       duration: const Duration(seconds: 2),
                     ),
                     FadeAnimatedText(
-                      'Trending Movies!',
+                      widget.textnumber2,
                       textStyle: TextStyle(
                         fontSize: MediaQuery.of(context).size.width * .07,
                         fontWeight: FontWeight.bold,
@@ -83,7 +89,7 @@ class _ForYouPopular_moviesState extends State<ForYouPopular_movies> {
                       duration: const Duration(seconds: 2),
                     ),
                     FadeAnimatedText(
-                      'Check out what\'s trending now!',
+                      widget.textnumber3,
                       textStyle: TextStyle(
                         fontSize: MediaQuery.of(context).size.width * .055,
                         fontWeight: FontWeight.bold,
