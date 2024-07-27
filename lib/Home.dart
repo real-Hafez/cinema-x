@@ -1,10 +1,8 @@
-import 'package:cinema_x/backdrop_poster_for_popular_and_For_you_movies_and_series/widgets/Builder_for_first_popular_in_app.dart';
-import 'package:cinema_x/for_you_row/widgets/for_you_row.dart';
-import 'package:cinema_x/for_you_row/widgets/for_you_row_body.dart';
-import 'package:cinema_x/Popular_peoble_movies_series/widgets/trending_coulm.dart';
+import 'package:cinema_x/HomePage/screen/Home_Screen.dart';
+import 'package:cinema_x/SearchPage/screen/Search_Screen.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:cinema_x/for_you_row/service/for_you_service_movies.dart';
+import 'package:cinema_x/profileScreen/screen/profile_Screen.dart';
+import 'package:flutter/rendering.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -14,91 +12,126 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  bool _hasInternet = false;
-  bool _loading = true;
-  bool _toastShown = false;
+  int _currentIndex = 0;
+  bool _isBottomBarVisible = true;
+  late ScrollController _scrollController;
+
+  final List<Widget> _screens = [];
 
   @override
   void initState() {
     super.initState();
-    _checkInternetConnectivity();
+    _scrollController = ScrollController();
+
+    _scrollController.addListener(() {
+      if (_scrollController.position.userScrollDirection ==
+          ScrollDirection.reverse) {
+        if (_isBottomBarVisible) {
+          setState(() {
+            _isBottomBarVisible = false;
+          });
+        }
+      } else if (_scrollController.position.userScrollDirection ==
+          ScrollDirection.forward) {
+        if (!_isBottomBarVisible) {
+          setState(() {
+            _isBottomBarVisible = true;
+          });
+        }
+      }
+    });
+
+    _screens.addAll([
+      HomeScreen(scrollController: _scrollController),
+      const SearchScreen(),
+      const ProfileScreen(),
+    ]);
   }
 
-  Future<void> _checkInternetConnectivity() async {
-    bool hasInternet = await for_you_service_movies().checkConnection();
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onTabTapped(int index) {
     setState(() {
-      _hasInternet = hasInternet;
-      _loading = false;
-      if (!_hasInternet && !_toastShown) {
-        Fluttertoast.showToast(
-          msg: "No internet connection",
-          toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.CENTER,
-          fontSize: 28,
-          textColor: Colors.white,
-        );
-        _toastShown = true;
-      }
+      _currentIndex = index;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_loading) {
-      return const InternetLoading();
-    }
+    return Scaffold(
+      backgroundColor: _currentIndex == 0
+          ? const Color(0xff090E17)
+          : const Color(0xff090E17),
+      body: Stack(
+        children: [
+          IndexedStack(
+            index: _currentIndex,
+            children: _screens,
+          ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: AnimatedOpacity(
+              opacity: _isBottomBarVisible ? 1.0 : 0.0,
+              duration: const Duration(milliseconds: 300),
+              child: Container(
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(25),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      spreadRadius: 2,
+                      blurRadius: 8,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    _buildNavItem(Icons.home, 'Home', 0),
+                    _buildNavItem(Icons.search, 'Search', 1),
+                    _buildNavItem(Icons.person, 'Profile', 2),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
-    if (!_hasInternet) {
-      return const NoInternet();
-    }
-
-    return const Scaffold(
-      backgroundColor: Color(0xff090E17),
-      body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        scrollDirection: Axis.vertical,
+  Widget _buildNavItem(IconData icon, String title, int index) {
+    final isSelected = _currentIndex == index;
+    return GestureDetector(
+      onTap: () => _onTabTapped(index),
+      child: AnimatedScale(
+        scale: isSelected ? 1.3 : 1.0,
+        duration: const Duration(milliseconds: 300),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            backdrop_poster_for_popular(),
-            SizedBox(height: 20),
-            for_you_row(),
-            TrendingCoulm(),
+            Icon(
+              icon,
+              color: isSelected ? Colors.blue : Colors.grey,
+            ),
+            Text(
+              title,
+              style: TextStyle(
+                color: isSelected ? Colors.blue : Colors.grey,
+              ),
+            ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class InternetLoading extends StatelessWidget {
-  const InternetLoading({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: Color(0xff090E17),
-      body: Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
-  }
-}
-
-class NoInternet extends StatelessWidget {
-  const NoInternet({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: Color(0xff090E17),
-      body: Center(
-        child: Text(
-          "No internet connection",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 32,
-          ),
         ),
       ),
     );

@@ -26,6 +26,7 @@ class _ForYouPopular_moviesState extends State<ForYouPopular_movies> {
 
   int _currentIndex = 0;
   late List<Color> _gradientColors;
+  late Future<void> _colorAnimationFuture;
 
   @override
   void initState() {
@@ -35,13 +36,21 @@ class _ForYouPopular_moviesState extends State<ForYouPopular_movies> {
   }
 
   void _startColorAnimation() {
-    Future.delayed(const Duration(seconds: 3), () {
-      setState(() {
-        _currentIndex = (_currentIndex + 1) % (_colors.length - 1);
-        _gradientColors = _colors.sublist(_currentIndex, _currentIndex + 2);
-      });
-      _startColorAnimation();
+    _colorAnimationFuture = Future.delayed(const Duration(seconds: 3), () {
+      if (mounted) {
+        setState(() {
+          _currentIndex = (_currentIndex + 1) % (_colors.length - 1);
+          _gradientColors = _colors.sublist(_currentIndex, _currentIndex + 2);
+        });
+        _startColorAnimation(); // Continue animation
+      }
     });
+  }
+
+  @override
+  void dispose() {
+    // Handle cancellation if needed
+    super.dispose();
   }
 
   @override

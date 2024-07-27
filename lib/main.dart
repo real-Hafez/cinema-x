@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:ui';
+import 'package:cinema_x/NavigationController.dart';
 import 'package:cinema_x/Splash_screen/screen/splash_screen.dart';
 import 'package:cinema_x/firebase_options.dart';
 import 'package:cinema_x/for_you_row/service/for_you_service_movies.dart';
