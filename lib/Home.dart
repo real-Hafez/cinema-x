@@ -15,6 +15,7 @@ class _HomeState extends State<Home> {
   int _currentIndex = 0;
   bool _isBottomBarVisible = true;
   late ScrollController _scrollController;
+  final ValueNotifier<bool> _bottomBarVisibilityNotifier = ValueNotifier(true);
 
   final List<Widget> _screens = [];
 
@@ -24,18 +25,18 @@ class _HomeState extends State<Home> {
     _scrollController = ScrollController();
 
     _scrollController.addListener(() {
-      if (_scrollController.position.userScrollDirection ==
-          ScrollDirection.reverse) {
+      if (_scrollController.position.userScrollDirection == ScrollDirection.reverse) {
         if (_isBottomBarVisible) {
           setState(() {
             _isBottomBarVisible = false;
+            _bottomBarVisibilityNotifier.value = false;
           });
         }
-      } else if (_scrollController.position.userScrollDirection ==
-          ScrollDirection.forward) {
+      } else if (_scrollController.position.userScrollDirection == ScrollDirection.forward) {
         if (!_isBottomBarVisible) {
           setState(() {
             _isBottomBarVisible = true;
+            _bottomBarVisibilityNotifier.value = true;
           });
         }
       }
@@ -43,7 +44,7 @@ class _HomeState extends State<Home> {
 
     _screens.addAll([
       HomeScreen(scrollController: _scrollController),
-      const SearchScreen(),
+      SearchScreen(bottomBarVisibilityNotifier: _bottomBarVisibilityNotifier),
       const ProfileScreen(),
     ]);
   }
@@ -51,6 +52,7 @@ class _HomeState extends State<Home> {
   @override
   void dispose() {
     _scrollController.dispose();
+    _bottomBarVisibilityNotifier.dispose();
     super.dispose();
   }
 
@@ -63,48 +65,50 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: _currentIndex == 0
-          ? const Color(0xff090E17)
-          : const Color(0xff090E17),
+      backgroundColor: _currentIndex == 0 ? const Color(0xff090E17) : const Color(0xff090E17),
       body: Stack(
         children: [
           IndexedStack(
             index: _currentIndex,
             children: _screens,
           ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: AnimatedOpacity(
-              opacity: _isBottomBarVisible ? 1.0 : 0.0,
-              duration: const Duration(milliseconds: 300),
-              child: Container(
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.circular(25),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      spreadRadius: 2,
-                      blurRadius: 8,
-                      offset: const Offset(0, 4),
+          ValueListenableBuilder<bool>(
+            valueListenable: _bottomBarVisibilityNotifier,
+            builder: (context, isVisible, child) {
+              return Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: AnimatedOpacity(
+                  opacity: isVisible ? 0.9 : 0.0,
+                  duration: const Duration(milliseconds: 300),
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(25),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          spreadRadius: 2,
+                          blurRadius: 8,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
                     ),
-                  ],
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        _buildNavItem(Icons.home, 'Home', 0),
+                        _buildNavItem(Icons.search, 'Search', 1),
+                        _buildNavItem(Icons.person, 'Profile', 2),
+                      ],
+                    ),
+                  ),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    _buildNavItem(Icons.home, 'Home', 0),
-                    _buildNavItem(Icons.search, 'Search', 1),
-                    _buildNavItem(Icons.person, 'Profile', 2),
-                  ],
-                ),
-              ),
-            ),
+              );
+            },
           ),
         ],
       ),
@@ -117,7 +121,7 @@ class _HomeState extends State<Home> {
       onTap: () => _onTabTapped(index),
       child: AnimatedScale(
         scale: isSelected ? 1.3 : 1.0,
-        duration: const Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 450),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
