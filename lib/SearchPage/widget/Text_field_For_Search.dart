@@ -1,3 +1,6 @@
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cinema_x/ApiConfig.dart';
 import 'package:cinema_x/SearchPage/service/Search_Result_Service.dart';
 import 'package:flutter/material.dart';
 
@@ -27,11 +30,7 @@ class _Text_field_For_SearchState extends State<Text_field_For_Search> {
     super.initState();
     _focusNode = FocusNode()
       ..addListener(() {
-        if (_focusNode.hasFocus) {
-          widget.bottomBarVisibilityNotifier.value = false;
-        } else {
-          widget.bottomBarVisibilityNotifier.value = true;
-        }
+        widget.bottomBarVisibilityNotifier.value = !_focusNode.hasFocus;
       });
   }
 
@@ -60,41 +59,37 @@ class _Text_field_For_SearchState extends State<Text_field_For_Search> {
 
   @override
   Widget build(BuildContext context) {
+    final padding = MediaQuery.of(context).size.width * 0.04;
+
     return SafeArea(
       child: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: MediaQuery.of(context).size.width * .04,
-        ),
+        padding: EdgeInsets.symmetric(horizontal: padding),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Row(
               children: [
                 Expanded(
                   child: Container(
                     padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * .04,
-                      vertical: MediaQuery.of(context).size.height * .015,
+                      horizontal: padding,
+                      vertical: MediaQuery.of(context).size.height * 0.010,
                     ),
                     decoration: BoxDecoration(
                       color: const Color(0xff1F2C39),
-                      borderRadius: BorderRadius.circular(
-                        MediaQuery.of(context).size.width * .07,
-                      ),
+                      borderRadius: BorderRadius.circular(12.0),
                     ),
                     child: Row(
                       children: [
                         const Icon(Icons.search, color: Color(0xff8994A2)),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * .04,
-                          height: MediaQuery.of(context).size.width * .04,
-                        ),
+                        const SizedBox(width: 8.0),
                         Expanded(
                           child: TextField(
                             controller: _controller,
                             focusNode: _focusNode,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.white,
-                              fontSize: MediaQuery.of(context).size.width * .05,
+                              fontSize: 16.0,
                             ),
                             decoration: const InputDecoration(
                               hintText: 'Search',
@@ -131,29 +126,31 @@ class _Text_field_For_SearchState extends State<Text_field_For_Search> {
                         widget.onSearchChanged(false);
                       });
                     },
-                    child: Text(
+                    child: const Text(
                       'Cancel',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: MediaQuery.of(context).size.width * .035,
-                      ),
+                      style: TextStyle(color: Colors.white, fontSize: 14.0),
                     ),
                   ),
               ],
             ),
             if (_isWriting)
-              Container(
-                height: MediaQuery.of(context).size.height * 0.75,
-                child: ListView.builder(
-                  itemCount: _searchResults.length,
-                  itemBuilder: (context, index) {
-                    final item = _searchResults[index];
-                    return _buildSearchResultItem(
-                      item.title,
-                      item.releaseDate,
-                      item.posterPath,
-                    );
-                  },
+              Flexible(
+                fit: FlexFit.loose,
+                child: Container(
+                  constraints: BoxConstraints(
+                    maxHeight: MediaQuery.of(context).size.height * 0.75,
+                  ),
+                  child: ListView.builder(
+                    itemCount: _searchResults.length,
+                    itemBuilder: (context, index) {
+                      final item = _searchResults[index];
+                      return _buildSearchResultItem(
+                        item.title,
+                        item.releaseDate,
+                        item.posterPath,
+                      );
+                    },
+                  ),
                 ),
               ),
           ],
@@ -165,34 +162,57 @@ class _Text_field_For_SearchState extends State<Text_field_For_Search> {
   Widget _buildSearchResultItem(
       String title, String subtitle, String posterPath) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.017),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: 100,
-            height: 150,
-            decoration: BoxDecoration(
-              color: Colors.red,
-              image: DecorationImage(
-                image:
-                    NetworkImage('https://image.tmdb.org/t/p/w500$posterPath'),
-                fit: BoxFit.cover,
+            width: MediaQuery.of(context).size.width * 0.4,
+            height: MediaQuery.of(context).size.width *
+                0.4 *
+                1.5, // 1.5 = 3/2 for 2:3 aspect ratio
+            child: CachedNetworkImage(
+              imageUrl: '${ApiConfig.imageBaseUrl}$posterPath',
+              progressIndicatorBuilder: (context, url, downloadProgress) =>
+                  Center(
+                child: CircularProgressIndicator(
+                  value: downloadProgress.progress,
+                  valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
+                  backgroundColor: Colors.white,
+                ),
               ),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
+              fit: BoxFit.cover,
+              alignment: Alignment.center,
             ),
           ),
-          const SizedBox(width: 10),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: const TextStyle(color: Colors.white, fontSize: 18),
-              ),
-              Text(
-                subtitle,
-                style: const TextStyle(color: Colors.white, fontSize: 14),
-              ),
-            ],
+          SizedBox(width: MediaQuery.of(context).size.width * 0.03),
+          Expanded(
+            child: Column(
+              // crossAxisAlignment: CrossAxisAlignment.,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+              children: [
+                AutoSizeText(
+                  title,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.1,
+                ),
+                AutoSizeText(
+                  subtitle,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
           ),
         ],
       ),

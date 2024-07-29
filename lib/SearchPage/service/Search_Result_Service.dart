@@ -12,13 +12,17 @@ class TMDbService {
           '${ApiConfig.baseUrl}/search/multi?api_key=${ApiConfig.apiKey}&query=$query'),
     );
 
-    if (response.statusCode == 200) {
+        if (response.statusCode == 200) {
       final data = json.decode(response.body);
       final results = data['results'] as List;
+
+      results.sort((a, b) => (b['popularity'] as double).compareTo(a['popularity'] as double));
+
       return results.map((json) => MediaItem.fromJson(json)).toList();
     } else {
       throw Exception('Failed to load search results');
     }
+
   }
 }
 
