@@ -16,6 +16,27 @@ class Text_field_For_Search extends StatefulWidget {
 
 class _Text_field_For_SearchState extends State<Text_field_For_Search> {
   final TextEditingController _controller = TextEditingController();
+  late FocusNode _focusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode = FocusNode()
+      ..addListener(() {
+        if (_focusNode.hasFocus) {
+          widget.bottomBarVisibilityNotifier.value = false;
+        } else {
+          widget.bottomBarVisibilityNotifier.value = true;
+        }
+      });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    _focusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +66,7 @@ class _Text_field_For_SearchState extends State<Text_field_For_Search> {
                     Expanded(
                       child: TextField(
                         controller: _controller,
+                        focusNode: _focusNode,
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: MediaQuery.of(context).size.width * .05),
@@ -64,8 +86,8 @@ class _Text_field_For_SearchState extends State<Text_field_For_Search> {
                           _controller.clear();
                           widget.onSearchChanged(false);
                         },
-                        child:
-                            const Icon(Icons.close, color: Color(0xff8994A2)),
+                        // child:
+                        //     const Icon(Icons.close, color: Color(0xff8994A2)),
                       ),
                   ],
                 ),

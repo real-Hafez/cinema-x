@@ -8,12 +8,14 @@ class SearchScreen extends StatelessWidget {
   final List<popular> Popular;
   final ValueNotifier<bool> bottomBarVisibilityNotifier;
   final ValueNotifier<bool> isSearchingNotifier;
+  final ScrollController scrollController;
 
   const SearchScreen({
     super.key,
     required this.Popular,
     required this.bottomBarVisibilityNotifier,
     required this.isSearchingNotifier,
+    required this.scrollController,
   });
 
   @override
@@ -29,59 +31,73 @@ class SearchScreen extends StatelessWidget {
             },
           ),
           Expanded(
-            child: ValueListenableBuilder<bool>(
-              valueListenable: isSearchingNotifier,
-              builder: (context, isSearching, child) {
-                return Visibility(
-                  visible: !isSearching,
-                  child: GridView.builder(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      childAspectRatio: 0.5,
-                      mainAxisSpacing: 9,
-                      crossAxisSpacing: 9,
-                    ),
-                    itemCount: Popular.length,
-                    itemBuilder: (context, index) {
-                      final posterPath = Popular[index].posterPath ?? '';
-                      final imageUrl = '${ApiConfig.imageBaseUrl}$posterPath';
-                      print('Image URL: $imageUrl');
-
-                      return ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.5),
-                                spreadRadius: 2,
-                                blurRadius: 8,
-                                offset: const Offset(0, 4),
-                              ),
-                            ],
-                          ),
-                          child: CachedNetworkImage(
-                            imageUrl: imageUrl,
-                            fit: BoxFit.cover,
-                            progressIndicatorBuilder:
-                                (context, url, downloadProgress) => Center(
-                              child: CircularProgressIndicator(
-                                value: downloadProgress.progress,
-                                valueColor: const AlwaysStoppedAnimation<Color>(
-                                    Colors.blue),
-                                backgroundColor: Colors.white,
-                              ),
-                            ),
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                );
+            child: NotificationListener<ScrollNotification>(
+              onNotification: (scrollNotification) {
+                if (scrollNotification is ScrollUpdateNotification) {
+                  if (scrollNotification.scrollDelta! > 0) {
+                    bottomBarVisibilityNotifier.value = false;
+                  } else if (scrollNotification.scrollDelta! < 0) {
+                    bottomBarVisibilityNotifier.value = true;
+                  }
+                }
+                return true;
               },
+              child: ValueListenableBuilder<bool>(
+                valueListenable: isSearchingNotifier,
+                builder: (context, isSearching, child) {
+                  return Visibility(
+                    visible: !isSearching,
+                    child: GridView.builder(
+                      controller: scrollController,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        childAspectRatio: 0.5,
+                        mainAxisSpacing: 9,
+                        crossAxisSpacing: 9,
+                      ),
+                      itemCount: Popular.length,
+                      itemBuilder: (context, index) {
+                        final posterPath = Popular[index].posterPath ?? '';
+                        final imageUrl = '${ApiConfig.imageBaseUrl}$posterPath';
+                        print('Image URL: $imageUrl');
+
+                        return ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.5),
+                                  spreadRadius: 2,
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 4),
+                                ),
+                              ],
+                            ),
+                            child: CachedNetworkImage(
+                              imageUrl: imageUrl,
+                              fit: BoxFit.cover,
+                              progressIndicatorBuilder:
+                                  (context, url, downloadProgress) => Center(
+                                child: CircularProgressIndicator(
+                                  value: downloadProgress.progress,
+                                  valueColor:
+                                      const AlwaysStoppedAnimation<Color>(
+                                          Colors.blue),
+                                  backgroundColor: Colors.white,
+                                ),
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
             ),
           ),
         ],

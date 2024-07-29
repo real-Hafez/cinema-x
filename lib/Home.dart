@@ -1,6 +1,6 @@
+import 'package:cinema_x/SearchPage/screen/Search_Screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cinema_x/HomePage/screen/Home_Screen.dart';
-import 'package:cinema_x/SearchPage/screen/Search_Screen.dart';
 import 'package:cinema_x/backdrop_poster_for_popular_and_For_you_movies_and_series/models/popular/popular_tmdb.dart';
 import 'package:cinema_x/backdrop_poster_for_popular_and_For_you_movies_and_series/service/popular_service.dart';
 import 'package:cinema_x/profileScreen/screen/profile_Screen.dart';
@@ -16,55 +16,60 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _currentIndex = 0;
   bool _isBottomBarVisible = true;
-  late ScrollController _scrollController;
+  late ScrollController _homeScrollController;
+  late ScrollController _searchScrollController;
   final ValueNotifier<bool> _bottomBarVisibilityNotifier = ValueNotifier(true);
   final ValueNotifier<bool> _isSearchingNotifier = ValueNotifier(false);
   late Future<List<popular>> _popularMoviesAndSeries;
 
-  final List<Widget> _screens = [
-    const Center(child: Text('Search Screen Placeholder')),
-    const ProfileScreen(),
-  ];
-
   @override
   void initState() {
     super.initState();
-    _scrollController = ScrollController();
+    _homeScrollController = ScrollController();
+    _searchScrollController = ScrollController();
     _popularMoviesAndSeries = popularService.fetchPopular();
 
-    _scrollController.addListener(() {
-      if (_scrollController.position.userScrollDirection ==
-          ScrollDirection.reverse) {
-        if (_isBottomBarVisible) {
-          setState(() {
-            _isBottomBarVisible = false;
-            _bottomBarVisibilityNotifier.value = false;
-          });
-        }
-      } else if (_scrollController.position.userScrollDirection ==
-          ScrollDirection.forward) {
-        if (!_isBottomBarVisible) {
-          setState(() {
-            _isBottomBarVisible = true;
-            _bottomBarVisibilityNotifier.value = true;
-          });
-        }
-      }
+    _homeScrollController.addListener(() {
+      _handleScroll(_homeScrollController);
     });
+
+    _searchScrollController.addListener(() {
+      _handleScroll(_searchScrollController);
+    });
+  }
+
+  void _handleScroll(ScrollController scrollController) {
+    if (scrollController.position.userScrollDirection ==
+        ScrollDirection.reverse) {
+      if (_isBottomBarVisible) {
+        setState(() {
+          _isBottomBarVisible = false;
+          _bottomBarVisibilityNotifier.value = false;
+        });
+      }
+    } else if (scrollController.position.userScrollDirection ==
+        ScrollDirection.forward) {
+      if (!_isBottomBarVisible) {
+        setState(() {
+          _isBottomBarVisible = true;
+          _bottomBarVisibilityNotifier.value = true;
+        });
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: _currentIndex == 0
-          ? const Color(0xff090E17)
-          : const Color(0xff090E17),
+      backgroundColor: const Color(0xff090E17),
       body: Stack(
         children: [
           IndexedStack(
             index: _currentIndex,
             children: [
-              HomeScreen(scrollController: _scrollController),
+              HomeScreen(
+                scrollController: _homeScrollController,
+              ),
               FutureBuilder<List<popular>>(
                 future: _popularMoviesAndSeries,
                 builder: (context, moviesSnapshot) {
@@ -80,6 +85,7 @@ class _HomeState extends State<Home> {
                       Popular: popularMoviesList,
                       bottomBarVisibilityNotifier: _bottomBarVisibilityNotifier,
                       isSearchingNotifier: _isSearchingNotifier,
+                      scrollController: _searchScrollController,
                     );
                   } else {
                     return const Center(child: Text('No data available'));
@@ -143,15 +149,10 @@ class _HomeState extends State<Home> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              icon,
-              color: isSelected ? Colors.blue : Colors.grey,
-            ),
+            Icon(icon, color: isSelected ? Colors.blue : Colors.grey),
             Text(
               title,
-              style: TextStyle(
-                color: isSelected ? Colors.blue : Colors.grey,
-              ),
+              style: TextStyle(color: isSelected ? Colors.blue : Colors.grey),
             ),
           ],
         ),
@@ -167,7 +168,8 @@ class _HomeState extends State<Home> {
 
   @override
   void dispose() {
-    _scrollController.dispose();
+    _homeScrollController.dispose();
+    _searchScrollController.dispose();
     _bottomBarVisibilityNotifier.dispose();
     _isSearchingNotifier.dispose();
     super.dispose();
