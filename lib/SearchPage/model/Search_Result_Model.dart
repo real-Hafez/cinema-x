@@ -1,23 +1,22 @@
-
 class SearchResultModel {
   final int id;
   final String? name;
   final String? originalName;
   final String? title;
   final String? originalTitle;
-  final String overview;
-  final String backdropPath;
-  final String posterPath;
-  final String mediaType;
-  final bool adult;
-  final String originalLanguage;
-  final List<int> genreIds;
-  final double popularity;
-  final double voteAverage;
-  final int voteCount;
+  final String? overview;
+  final String? backdropPath;
+  final String? posterPath;
+  final String? mediaType;
+  final bool? adult;
+  final String? originalLanguage;
+  final List<int>? genreIds;
+  final double? popularity;
+  final double? voteAverage;
+  final int? voteCount;
   final String? firstAirDate;
   final String? releaseDate;
-  final List<String> originCountry;
+  final List<String>? originCountry;
 
   SearchResultModel({
     required this.id,
@@ -25,19 +24,19 @@ class SearchResultModel {
     this.originalName,
     this.title,
     this.originalTitle,
-    required this.overview,
-    required this.backdropPath,
-    required this.posterPath,
-    required this.mediaType,
-    required this.adult,
-    required this.originalLanguage,
-    required this.genreIds,
-    required this.popularity,
-    required this.voteAverage,
-    required this.voteCount,
+    this.overview,
+    this.backdropPath,
+    this.posterPath,
+    this.mediaType,
+    this.adult,
+    this.originalLanguage,
+    this.genreIds,
+    this.popularity,
+    this.voteAverage,
+    this.voteCount,
     this.firstAirDate,
     this.releaseDate,
-    required this.originCountry,
+    this.originCountry,
   });
 
   factory SearchResultModel.fromJson(Map<String, dynamic> json) {
@@ -53,13 +52,16 @@ class SearchResultModel {
       mediaType: json['media_type'],
       adult: json['adult'],
       originalLanguage: json['original_language'],
-      genreIds: List<int>.from(json['genre_ids']),
-      popularity: json['popularity'].toDouble(),
-      voteAverage: json['vote_average'].toDouble(),
+      genreIds:
+          json['genre_ids'] != null ? List<int>.from(json['genre_ids']) : null,
+      popularity: json['popularity']?.toDouble(),
+      voteAverage: json['vote_average']?.toDouble(),
       voteCount: json['vote_count'],
       firstAirDate: json['first_air_date'],
       releaseDate: json['release_date'],
-      originCountry: List<String>.from(json['origin_country']),
+      originCountry: json['origin_country'] != null
+          ? List<String>.from(json['origin_country'])
+          : null,
     );
   }
 

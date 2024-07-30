@@ -1,8 +1,12 @@
-import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cinema_x/Actor/Screen/Actor_Screen.dart';
+import 'package:cinema_x/Movies/Screen/Movies_Screen.dart';
+import 'package:cinema_x/SearchPage/model/Search_Result_Model.dart';
+import 'package:cinema_x/TV/Screen/Series_Screen.dart';
+import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cinema_x/ApiConfig.dart';
 import 'package:cinema_x/SearchPage/service/Search_Result_Service.dart';
-import 'package:flutter/material.dart';
 
 class Text_field_For_Search extends StatefulWidget {
   const Text_field_For_Search({
@@ -23,7 +27,7 @@ class _Text_field_For_SearchState extends State<Text_field_For_Search> {
   final TMDbService _tmdbService = TMDbService();
   late FocusNode _focusNode;
   bool _isWriting = false;
-  List<MediaItem> _searchResults = [];
+  List<SearchResultModel> _searchResults = [];
 
   @override
   void initState() {
@@ -55,6 +59,31 @@ class _Text_field_For_SearchState extends State<Text_field_For_Search> {
       });
     }
     widget.onSearchChanged(_isWriting);
+  }
+
+  void _navigateToDetailScreen(SearchResultModel item) {
+    if (item.mediaType == 'movie') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MoviesScreen(movieId: item.id),
+        ),
+      );
+    } else if (item.mediaType == 'tv') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => TvSeriesScreen(tvId: item.id),
+        ),
+      );
+    } else if (item.mediaType == 'person') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ActorScreen(actorId: item.id),
+        ),
+      );
+    }
   }
 
   @override
@@ -145,9 +174,10 @@ class _Text_field_For_SearchState extends State<Text_field_For_Search> {
                     itemBuilder: (context, index) {
                       final item = _searchResults[index];
                       return _buildSearchResultItem(
-                        item.title,
-                        item.releaseDate,
-                        item.posterPath,
+                        item.title ?? item.name ?? '',
+                        item.releaseDate ?? item.firstAirDate ?? '',
+                        item.posterPath ?? '',
+                        item,
                       );
                     },
                   ),
@@ -159,62 +189,62 @@ class _Text_field_For_SearchState extends State<Text_field_For_Search> {
     );
   }
 
-  Widget _buildSearchResultItem(
-      String title, String subtitle, String posterPath) {
-    return Padding(
-      padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.017),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: MediaQuery.of(context).size.width * 0.4,
-            height: MediaQuery.of(context).size.width *
-                0.4 *
-                1.5, // 1.5 = 3/2 for 2:3 aspect ratio
-            child: CachedNetworkImage(
-              imageUrl: '${ApiConfig.imageBaseUrl}$posterPath',
-              progressIndicatorBuilder: (context, url, downloadProgress) =>
-                  Center(
-                child: CircularProgressIndicator(
-                  value: downloadProgress.progress,
-                  valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
-                  backgroundColor: Colors.white,
+  Widget _buildSearchResultItem(String title, String subtitle,
+      String posterPath, SearchResultModel item) {
+    return GestureDetector(
+      onTap: () => _navigateToDetailScreen(item),
+      child: Padding(
+        padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.017),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width * 0.4,
+              height: MediaQuery.of(context).size.width * 0.4 * 1.5,
+              child: CachedNetworkImage(
+                imageUrl: '${ApiConfig.imageBaseUrl}$posterPath',
+                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                    Center(
+                  child: CircularProgressIndicator(
+                    value: downloadProgress.progress,
+                    valueColor:
+                        const AlwaysStoppedAnimation<Color>(Colors.blue),
+                    backgroundColor: Colors.white,
+                  ),
                 ),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
+                fit: BoxFit.cover,
+                alignment: Alignment.center,
               ),
-              errorWidget: (context, url, error) => const Icon(Icons.error),
-              fit: BoxFit.cover,
-              alignment: Alignment.center,
             ),
-          ),
-          SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-          Expanded(
-            child: Column(
-              // crossAxisAlignment: CrossAxisAlignment.,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
-              children: [
-                AutoSizeText(
-                  title,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
+            SizedBox(width: MediaQuery.of(context).size.width * 0.03),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  AutoSizeText(
+                    title,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.1,
-                ),
-                AutoSizeText(
-                  subtitle,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.1,
                   ),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
+                  AutoSizeText(
+                    subtitle,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
