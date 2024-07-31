@@ -8,7 +8,7 @@ class ActorScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('TV Series Screen')),
       body: Center(
-        child: Text('TV Series Screen\nTV ID: $actorId'),
+        child: Text('actor  Screen\nTV ID: $actorId'),
       ),
     );
   }

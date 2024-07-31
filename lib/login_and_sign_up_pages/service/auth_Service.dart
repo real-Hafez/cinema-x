@@ -1,8 +1,10 @@
 import 'package:cinema_x/Pick_card/screen/pick_faviourite_genre.dart';
 import 'package:cinema_x/Home.dart';
+import 'package:cinema_x/login_and_sign_up_pages/screens/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
   Future<void> signup({
@@ -126,17 +128,13 @@ class AuthService {
     }
   }
 
-//   Future<void> signout({
-//     required BuildContext context
-//   }) async {
-//     await FirebaseAuth.instance.signOut();
-//     await Future.delayed(const Duration(seconds: 1));
-//     Navigator.pushReplacement(
-//         context,
-//         MaterialPageRoute(
-//           builder: (BuildContext context) =>Login()
-//         )
-//       );
-//   }
-//
+  Future<void> signout({required BuildContext context}) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('email');
+
+    await FirebaseAuth.instance.signOut();
+    await Future.delayed(const Duration(seconds: 1));
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (BuildContext context) => LoginScreen()));
+  }
 }

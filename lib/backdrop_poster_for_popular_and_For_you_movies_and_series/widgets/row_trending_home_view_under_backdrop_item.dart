@@ -3,11 +3,11 @@ import 'package:cinema_x/ApiConfig.dart';
 import 'package:cinema_x/backdrop_poster_for_popular_and_For_you_movies_and_series/models/popular/popular_tmdb.dart';
 import 'package:flutter/material.dart';
 
-class RowTrendingHomeViewUnderBackdropItem extends StatelessWidget {
+class swipe_for_another_popular_under_backdrop_item extends StatelessWidget {
   final popular Popular;
   final Function(String) onImageTap;
 
-  const RowTrendingHomeViewUnderBackdropItem({
+  const swipe_for_another_popular_under_backdrop_item({
     super.key,
     required this.Popular,
     required this.onImageTap,

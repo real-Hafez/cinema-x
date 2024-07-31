@@ -71,8 +71,7 @@ class _FirstShowCasePopularState extends State<FirstShowCasePopular> {
         widget.popularList.isNotEmpty ? widget.popularList[0] : null;
 
     return Column(
-                  mainAxisSize: MainAxisSize.min,
-
+      mainAxisSize: MainAxisSize.min,
       children: [
         if (firstMovie != null)
           TrendingBackdrop(
@@ -80,6 +79,15 @@ class _FirstShowCasePopularState extends State<FirstShowCasePopular> {
                 selectedNameOrTitle ?? firstMovie.title ?? firstMovie.name!,
             imageUrl: selectedImageUrl ??
                 '${ApiConfig.imageBaseUrl}${firstMovie.backdropPath}',
+            movieId: firstMovie.id,
+            tvId: firstMovie.id, // Assuming ID is used for both movie and TV
+            actorId: firstMovie.id, // Assuming ID is used for actor as well
+            isMovie:
+                firstMovie.title != null, // Assuming title indicates a movie
+            isTv: firstMovie.name != null &&
+                firstMovie.title ==
+                    null, // Assuming name and no title indicates a TV series
+            isActor: false, // Modify logic if needed for actors
           ),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.015,

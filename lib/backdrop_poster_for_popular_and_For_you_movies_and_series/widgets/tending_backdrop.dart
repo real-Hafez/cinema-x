@@ -7,11 +7,23 @@ import 'package:flutter/material.dart';
 class TrendingBackdrop extends StatelessWidget {
   final String imageUrl;
   final String nameOrTitle;
+  final int movieId;
+  final int tvId;
+  final int actorId;
+  final bool isMovie;
+  final bool isTv;
+  final bool isActor;
 
   const TrendingBackdrop({
     super.key,
     required this.imageUrl,
     required this.nameOrTitle,
+    required this.movieId,
+    required this.tvId,
+    required this.actorId,
+    required this.isMovie,
+    required this.isTv,
+    required this.isActor,
   });
 
   @override
@@ -63,7 +75,14 @@ class TrendingBackdrop extends StatelessWidget {
           right: MediaQuery.of(context).size.width * 0.06,
           left: MediaQuery.of(context).size.width * 0.03,
           bottom: MediaQuery.of(context).size.width * 0.01,
-          child: const watch_now_button(),
+          child: WatchNowButton(
+            movieId: movieId,
+            tvId: tvId,
+            actorId: actorId,
+            isMovie: isMovie,
+            isTv: isTv,
+            isActor: isActor,
+          ),
         ),
         const Logo(),
       ],

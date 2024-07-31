@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cinema_x/ApiConfig.dart';
+import 'package:cinema_x/Movies/Screen/Movies_Screen.dart';
 import 'package:cinema_x/for_you_row/model/for_you_model_movies.dart';
 import 'package:cinema_x/for_you_row/service/for_you_service_movies.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart'; // Ensure to include get package
 
 class for_you_item extends StatefulWidget {
   const for_you_item({super.key, this.showAll = false});
@@ -59,25 +61,34 @@ class _for_you_itemState extends State<for_you_item> {
               itemCount: movies.length,
               itemBuilder: (BuildContext context, int index) {
                 final movie = movies[index];
-                return Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * .03,
-                      vertical: MediaQuery.of(context).size.width * .0),
-                  child: CachedNetworkImage(
-                    imageUrl: '${ApiConfig.imageBaseUrl}${movie.posterPath}',
-                    progressIndicatorBuilder:
-                        (context, url, downloadProgress) => Center(
-                      child: CircularProgressIndicator(
-                        value: downloadProgress.progress,
-                        valueColor:
-                            const AlwaysStoppedAnimation<Color>(Colors.blue),
-                        backgroundColor: Colors.white,
+                return GestureDetector(
+                  onTap: () {
+                    Get.to(
+                        MoviesScreen(
+                          movieId: movie.id!,
+                        ),
+                        transition: Transition.circularReveal);
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width * .03,
+                        vertical: MediaQuery.of(context).size.width * .0),
+                    child: CachedNetworkImage(
+                      imageUrl: '${ApiConfig.imageBaseUrl}${movie.posterPath}',
+                      progressIndicatorBuilder:
+                          (context, url, downloadProgress) => Center(
+                        child: CircularProgressIndicator(
+                          value: downloadProgress.progress,
+                          valueColor:
+                              const AlwaysStoppedAnimation<Color>(Colors.blue),
+                          backgroundColor: Colors.white,
+                        ),
                       ),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                      fit: BoxFit.fill,
+                      alignment: Alignment.center,
                     ),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
-                    fit: BoxFit.fill,
-                    alignment: Alignment.center,
                   ),
                 );
               },

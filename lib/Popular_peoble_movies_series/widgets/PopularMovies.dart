@@ -1,8 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cinema_x/ApiConfig.dart';
+import 'package:cinema_x/Movies/Screen/Movies_Screen.dart';
 import 'package:cinema_x/Popular_peoble_movies_series/models/Popular_movies_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 class Popularmovies extends StatelessWidget {
   const Popularmovies({super.key, required this.popular_movie});
@@ -13,19 +16,27 @@ class Popularmovies extends StatelessWidget {
     return Container(
       height: MediaQuery.of(context).size.height * .060,
       child: GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 1,
-            childAspectRatio: 1.18,
-            mainAxisSpacing: MediaQuery.of(context).size.width * .040,
-          ),
-          physics: const BouncingScrollPhysics(),
-          scrollDirection: Axis.horizontal,
-          itemCount: popular_movie.length,
-          itemBuilder: (context, index) {
-            final movie = popular_movie[index];
-            final imageUrl = '${ApiConfig.imageBaseUrl}${movie.posterPath}';
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 1,
+          childAspectRatio: 1.18,
+          mainAxisSpacing: MediaQuery.of(context).size.width * .040,
+        ),
+        physics: const BouncingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        itemCount: popular_movie.length,
+        itemBuilder: (context, index) {
+          final movie = popular_movie[index];
+          final imageUrl = '${ApiConfig.imageBaseUrl}${movie.posterPath}';
 
-            return CachedNetworkImage(
+          return GestureDetector(
+            onTap: () {
+              Get.to(
+                  MoviesScreen(
+                    movieId: movie.id,
+                  ),
+                  transition: Transition.circularReveal);
+            },
+            child: CachedNetworkImage(
               imageUrl: imageUrl,
               fit: BoxFit.fill,
               progressIndicatorBuilder: (context, url, downloadProgress) =>
@@ -37,10 +48,12 @@ class Popularmovies extends StatelessWidget {
                 ),
               ),
               errorWidget: (context, url, error) => const Icon(Icons.error),
-            );
-          },
-          padding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width * .027)),
+            ),
+          );
+        },
+        padding: EdgeInsets.symmetric(
+            horizontal: MediaQuery.of(context).size.width * .027),
+      ),
     );
   }
 }

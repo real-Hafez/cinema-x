@@ -21,7 +21,7 @@ class RowTrendingHomeViewUnderBackdrop extends StatelessWidget {
         itemCount: 8,
         physics: const BouncingScrollPhysics(),
         itemBuilder: (context, index) {
-          return RowTrendingHomeViewUnderBackdropItem(
+          return swipe_for_another_popular_under_backdrop_item(
             Popular: popularList[index],
             onImageTap: (imageUrl) {
               final nameOrTitle =
