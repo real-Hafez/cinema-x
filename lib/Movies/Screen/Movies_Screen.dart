@@ -1,7 +1,9 @@
+import 'package:cinema_x/Movies/widgets/movie_Screen_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:cinema_x/Movies/widgets/youtubeplayer.dart';
+import 'package:cinema_x/SearchPage/service/Search_Result_Service.dart';
 import 'package:cinema_x/Movies/service/Videos_Service.dart';
 import 'package:cinema_x/SearchPage/model/Search_Result_Model.dart';
-import 'package:cinema_x/SearchPage/service/Search_Result_Service.dart';
 import 'package:cinema_x/Movies/model/Videos_model.dart';
 
 class MoviesScreen extends StatelessWidget {
@@ -12,67 +14,76 @@ class MoviesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Movies Screen')),
-      body: FutureBuilder<SearchResultModel>(
-        future: TMDbService().getMovieDetails(movieId),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData) {
-            return const Center(child: Text('No movie data'));
-          } else {
-            final movie = snapshot.data!;
+      backgroundColor: const Color(0xff090E17),
+      body: SafeArea(
+        child: FutureBuilder<SearchResultModel>(
+          future: TMDbService().getMovieDetails(movieId),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(child: Text('Error: ${snapshot.error}'));
+            } else if (!snapshot.hasData) {
+              return const Center(child: Text('No movie data'));
+            } else {
+              final movie = snapshot.data!;
 
-            // Debug print for movie data
-            print('Movie Title: ${movie.title}');
-            print('Movie ID: $movieId');
-
-            // Fetch videos for the movie
-            return FutureBuilder<List<Video_Movies_model>>(
-              future: Video_Movies_Service().fetchVideos(movieId),
-              builder: (context, videoSnapshot) {
-                if (videoSnapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                } else if (videoSnapshot.hasError) {
-                  return Center(child: Text('Error: ${videoSnapshot.error}'));
-                } else if (!videoSnapshot.hasData ||
-                    videoSnapshot.data!.isEmpty) {
-                  return const Center(child: Text('No videos available'));
-                } else {
-                  final videos = videoSnapshot.data!;
-
-                  // Print video keys
-                  print('Video Keys:');
-                  if (videos.isEmpty) {
-                    print('No videos available');
+              return FutureBuilder<List<Video_Movies_model>>(
+                future: Video_Movies_Service().fetchVideos(movieId),
+                builder: (context, videoSnapshot) {
+                  if (videoSnapshot.connectionState ==
+                      ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (videoSnapshot.hasError) {
+                    return Center(child: Text('Error: ${videoSnapshot.error}'));
+                  } else if (!videoSnapshot.hasData ||
+                      videoSnapshot.data!.isEmpty) {
+                    return const Center(child: Text('No videos available'));
                   } else {
-                    for (var video in videos) {
-                      print('Video Name: ${video.name}');
-                      print('Video Key: ${video.key}');
-                    }
-                  }
+                    final videos = videoSnapshot.data!;
 
-                  return Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Container(
-                      color: Colors.green,
-                      height: MediaQuery.of(context).size.height * .4,
-                      width: double.infinity,
-                      child: Center(
-                        child: Text(
-                          'Movie: ${movie.title}\nVideos: ${videos.length}',
-                          style: const TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  );
-                }
-              },
-            );
-          }
-        },
+                    final trailers = videos
+                        .where((video) => video.type == 'Trailer')
+                        .toList();
+
+                    if (trailers.isEmpty) {
+                      return const Center(child: Text('No trailers available'));
+                    }
+
+                    final officialTrailers = trailers
+                        .where((video) => (video.official ?? false))
+                        .toList();
+
+                    Video_Movies_model? selectedTrailer;
+                    if (officialTrailers.isNotEmpty) {
+                      // Get the newest official trailer
+                      officialTrailers.sort(
+                          (a, b) => b.publishedAt!.compareTo(a.publishedAt!));
+                      selectedTrailer = officialTrailers.first;
+                    } else if (trailers.isNotEmpty) {
+                      // If no official trailers, select the newest trailer
+                      trailers.sort(
+                          (a, b) => b.publishedAt!.compareTo(a.publishedAt!));
+                      selectedTrailer = trailers.first;
+                    } else {
+                      // If no trailers at all
+                      return const Center(child: Text('No trailers available'));
+                    }
+
+                    const aspectRatio = 16 / 9;
+                    final screenWidth = MediaQuery.of(context).size.width;
+                    final videoHeight = screenWidth / aspectRatio;
+
+                    return movie_Screen_ui(
+                        screenWidth: screenWidth,
+                        videoHeight: videoHeight,
+                        selectedTrailer: selectedTrailer);
+                  }
+                },
+              );
+            }
+          },
+        ),
       ),
     );
   }

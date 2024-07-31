@@ -51,6 +51,7 @@ dependencies:
   palette_generator: ^0.3.3+4
   provider: ^6.1.2
   shared_preferences: ^2.2.3
+  youtube_player_flutter: ^9.0.1
 
 dev_dependencies:
   flutter_lints: ^3.0.0
