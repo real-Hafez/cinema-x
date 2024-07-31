@@ -35,6 +35,17 @@ class TMDbService {
     } else {
       throw Exception('Failed to load movie details');
     }
+  } Future<SearchResultModel> getseriesDetails(int seriesId) async {
+    final response = await http.get(
+      Uri.parse('${ApiConfig.baseUrl}/tv/$seriesId?api_key=${ApiConfig.apiKey}'),
+    );
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      return SearchResultModel.fromJson(data);
+    } else {
+      throw Exception('Failed to load series details');
+    }
   }
 }
 

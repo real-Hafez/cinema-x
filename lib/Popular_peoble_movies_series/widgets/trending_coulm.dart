@@ -28,7 +28,8 @@ class _TrendingCoulmState extends State<TrendingCoulm> {
     super.initState();
     _personModelFuture = PersonService().getPerson();
     _popularMoviesFuture = Popular_Movies_Service().getPopularMovies();
-    _popularSeriesFuture = Popular_Series_Service().getPopularSeries();
+    int tvId = 123;
+    _popularSeriesFuture = Popular_Series_Service().getPopularSeries(tvId);
   }
 
   @override

@@ -70,13 +70,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             Container(
               decoration: BoxDecoration(
-                color: const Color(
-                    0xFF2A2E3D), // Adjust this color to match the button's background color
+                color: const Color(0xFF2A2E3D),
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(
-                  color: Colors
-                      .blue, // Adjust this color if the button has a border
-                  width: 1, // Adjust the width of the border
+                  color: Colors.blue,
+                  width: 1,
                 ),
               ),
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),

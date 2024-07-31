@@ -4,7 +4,7 @@ import 'package:cinema_x/Popular_peoble_movies_series/models/Popular_Series_mode
 import 'package:http/http.dart' as http;
 
 class Popular_Series_Service {
-  Future<List<Popular_Series_model>> getPopularSeries() async {
+  Future<List<Popular_Series_model>> getPopularSeries(int tvId) async {
     final response = await http.get(Uri.parse(
         '${ApiConfig.baseUrl}/tv/popular?api_key=${ApiConfig.apiKey}'));
     if (response.statusCode == 200) {
