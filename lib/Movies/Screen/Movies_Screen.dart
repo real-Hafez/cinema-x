@@ -1,6 +1,5 @@
-import 'package:cinema_x/Movies/widgets/movie_Screen_ui.dart';
 import 'package:flutter/material.dart';
-import 'package:cinema_x/Movies/widgets/youtubeplayer.dart';
+import 'package:cinema_x/Movies/widgets/movie_Screen_ui.dart';
 import 'package:cinema_x/SearchPage/service/Search_Result_Service.dart';
 import 'package:cinema_x/Movies/service/Videos_Service.dart';
 import 'package:cinema_x/SearchPage/model/Search_Result_Model.dart';
@@ -41,7 +40,6 @@ class MoviesScreen extends StatelessWidget {
                     return const Center(child: Text('No videos available'));
                   } else {
                     final videos = videoSnapshot.data!;
-
                     final trailers = videos
                         .where((video) => video.type == 'Trailer')
                         .toList();
@@ -53,20 +51,16 @@ class MoviesScreen extends StatelessWidget {
                     final officialTrailers = trailers
                         .where((video) => (video.official ?? false))
                         .toList();
-
                     Video_Movies_model? selectedTrailer;
                     if (officialTrailers.isNotEmpty) {
-                      // Get the newest official trailer
                       officialTrailers.sort(
                           (a, b) => b.publishedAt!.compareTo(a.publishedAt!));
                       selectedTrailer = officialTrailers.first;
                     } else if (trailers.isNotEmpty) {
-                      // If no official trailers, select the newest trailer
                       trailers.sort(
                           (a, b) => b.publishedAt!.compareTo(a.publishedAt!));
                       selectedTrailer = trailers.first;
                     } else {
-                      // If no trailers at all
                       return const Center(child: Text('No trailers available'));
                     }
 
@@ -74,10 +68,15 @@ class MoviesScreen extends StatelessWidget {
                     final screenWidth = MediaQuery.of(context).size.width;
                     final videoHeight = screenWidth / aspectRatio;
 
-                    return movie_Screen_ui(
+                    return SingleChildScrollView(
+                      child: movie_Screen_ui(
                         screenWidth: screenWidth,
                         videoHeight: videoHeight,
-                        selectedTrailer: selectedTrailer);
+                        selectedTrailer: selectedTrailer,
+                        trailers: trailers,
+                        movie: movie,
+                      ),
+                    );
                   }
                 },
               );
