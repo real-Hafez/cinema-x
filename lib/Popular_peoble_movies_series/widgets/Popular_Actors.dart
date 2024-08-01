@@ -18,7 +18,8 @@ class PopularActors extends StatelessWidget {
         itemCount: personModel.length,
         itemBuilder: (context, index) {
           final actor = personModel[index];
-          final imageUrl = 'https://image.tmdb.org/t/p/original${actor.profilePath}';
+          final imageUrl =
+              'https://image.tmdb.org/t/p/original${actor.profilePath}';
 
           return Padding(
             padding: const EdgeInsets.all(8.0),
@@ -45,15 +46,17 @@ class PopularActors extends StatelessWidget {
                         child: CachedNetworkImage(
                           imageUrl: imageUrl,
                           fit: BoxFit.cover,
-                          progressIndicatorBuilder: (context, url, downloadProgress) =>
-                              Center(
+                          progressIndicatorBuilder:
+                              (context, url, downloadProgress) => Center(
                             child: CircularProgressIndicator(
                               value: downloadProgress.progress,
-                              valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
+                              valueColor: const AlwaysStoppedAnimation<Color>(
+                                  Colors.blue),
                               backgroundColor: Colors.white,
                             ),
                           ),
-                          errorWidget: (context, url, error) => const Icon(Icons.error),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
                         ),
                       ),
                     ),

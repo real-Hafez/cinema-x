@@ -17,9 +17,9 @@ class popular {
   final bool? video;
   final double voteAverage;
   final int voteCount;
-  final String? name; 
-  final String? firstAirDate; 
-  final List<String>? originCountry; 
+  final String? name;
+  final String? firstAirDate;
+  final List<String>? originCountry;
 
   popular({
     this.backdropPath,

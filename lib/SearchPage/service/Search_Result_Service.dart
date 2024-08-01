@@ -5,7 +5,9 @@ import 'package:cinema_x/SearchPage/model/Search_Result_Model.dart';
 import 'package:http/http.dart' as http;
 
 class TMDbService {
-  Future<List<SearchResultModel>> searchMedia(String query,) async {
+  Future<List<SearchResultModel>> searchMedia(
+    String query,
+  ) async {
     final response = await http.get(
       Uri.parse(
           '${ApiConfig.baseUrl}/search/multi?api_key=${ApiConfig.apiKey}&query=$query'),
@@ -22,11 +24,12 @@ class TMDbService {
     } else {
       throw Exception('Failed to load search results');
     }
-    
   }
+
   Future<SearchResultModel> getMovieDetails(int movieId) async {
     final response = await http.get(
-      Uri.parse('${ApiConfig.baseUrl}/movie/$movieId?api_key=${ApiConfig.apiKey}'),
+      Uri.parse(
+          '${ApiConfig.baseUrl}/movie/$movieId?api_key=${ApiConfig.apiKey}'),
     );
 
     if (response.statusCode == 200) {
@@ -35,9 +38,12 @@ class TMDbService {
     } else {
       throw Exception('Failed to load movie details');
     }
-  } Future<SearchResultModel> getseriesDetails(int seriesId) async {
+  }
+
+  Future<SearchResultModel> getseriesDetails(int seriesId) async {
     final response = await http.get(
-      Uri.parse('${ApiConfig.baseUrl}/tv/$seriesId?api_key=${ApiConfig.apiKey}'),
+      Uri.parse(
+          '${ApiConfig.baseUrl}/tv/$seriesId?api_key=${ApiConfig.apiKey}'),
     );
 
     if (response.statusCode == 200) {

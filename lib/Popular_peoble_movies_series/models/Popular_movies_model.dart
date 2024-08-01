@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 class Popular_Movies_model {

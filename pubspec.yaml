@@ -43,6 +43,7 @@ dependencies:
   firebase_performance: ^0.10.0+3
   flutter:
     sdk: flutter
+  flutter_rating_bar: ^4.0.1
   fluttertoast: ^8.2.6
   get: ^4.6.6
   http: ^1.2.2
