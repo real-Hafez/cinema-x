@@ -1,6 +1,14 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cinema_x/Movies/model/detilis_model/detilis.dart';
+import 'package:cinema_x/Movies/widgets/Audiotrack_Movie_About.dart';
+import 'package:cinema_x/Movies/widgets/Budget_Movie_about.dart';
+import 'package:cinema_x/Movies/widgets/Country_Movie_About.dart';
+import 'package:cinema_x/Movies/widgets/Revenue_Movie_About.dart';
+import 'package:cinema_x/Movies/widgets/Soft_Gross_widget.dart';
+import 'package:cinema_x/Movies/widgets/Status_Movie_About.dart';
 import 'package:cinema_x/Movies/widgets/Text_Widget_For_About.dart';
+import 'package:cinema_x/Movies/widgets/Votes_And_Rating_Row.dart';
+import 'package:cinema_x/Movies/widgets/Year_Movie_About.dart';
 import 'package:cinema_x/SearchPage/model/Search_Result_Model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -48,42 +56,11 @@ class About_Movie extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text_Widget_For_About(
-                      text: 'Audio track',
-                    ),
-                    SizedBox(height: MediaQuery.of(context).size.height * .001),
-                    Text(
-                      spokenLanguages.join('  ,  '),
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w100,
-                          fontSize: MediaQuery.of(context).size.height * .02),
-                    ),
-                  ],
-                ),
+                child: Audiotrack_Movie_About(spokenLanguages: spokenLanguages),
               ),
               SizedBox(width: MediaQuery.of(context).size.width * .05),
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Text_Widget_For_About(
-                      text: 'Country',
-                    ),
-                    SizedBox(height: MediaQuery.of(context).size.height * .001),
-                    AutoSizeText(
-                      originCountries.join(),
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w100,
-                        fontSize: MediaQuery.of(context).size.height * .02,
-                      ),
-                    ),
-                  ],
-                ),
+                child: Country_Movie_About(originCountries: originCountries),
               ),
             ],
           ),
@@ -93,176 +70,31 @@ class About_Movie extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text_Widget_For_About(
-                      text: 'Year',
-                    ),
-                    SizedBox(height: MediaQuery.of(context).size.height * .001),
-                    Text(
-                      year,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w100,
-                          fontSize: MediaQuery.of(context).size.height * .02),
-                    ),
-                  ],
-                ),
+                child: Year_Movie_About(year: year),
               ),
               SizedBox(width: MediaQuery.of(context).size.width * .05),
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Text_Widget_For_About(
-                      text: 'Status',
-                    ),
-                    SizedBox(height: MediaQuery.of(context).size.height * .001),
-                    Text(
-                      status,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w100,
-                          fontSize: MediaQuery.of(context).size.height * .02),
-                    ),
-                  ],
-                ),
+                child: Status_Movie_About(status: status),
               ),
             ],
           ),
           SizedBox(height: MediaQuery.of(context).size.height * .02),
           // Row 3: Rating and Votes
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text_Widget_For_About(
-                      text: 'Rating',
-                    ),
-                    SizedBox(height: MediaQuery.of(context).size.height * .001),
-                    Row(
-                      children: [
-                        RatingBarIndicator(
-                          unratedColor: Colors.grey,
-                          rating: voteAverage / 2, // Assuming 10-point scale
-                          itemBuilder: (context, index) => const Icon(
-                            Icons.star,
-                            color: Colors.amber,
-                          ),
-                          itemCount: 5,
-                          itemSize: MediaQuery.of(context).size.height * .025,
-                          direction: Axis.horizontal,
-                        ),
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * .02),
-                        // Text(
-                        //   '${voteAverage.toStringAsFixed(1)}/5',
-                        //   style: TextStyle(
-                        //       color: Colors.white,
-                        //       fontWeight: FontWeight.w100,
-                        //       fontSize:
-                        //           MediaQuery.of(context).size.height * .02),
-                        // ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(width: MediaQuery.of(context).size.width * .05),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Text_Widget_For_About(
-                      text: 'Votes',
-                    ),
-                    SizedBox(height: MediaQuery.of(context).size.height * .001),
-                    Text(
-                      '$voteCount votes',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w100,
-                          fontSize: MediaQuery.of(context).size.height * .02),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+          Votes_And_Rating_Row(voteAverage: voteAverage, voteCount: voteCount),
           SizedBox(height: MediaQuery.of(context).size.height * .02),
           // Row 4: Budget and Revenue
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text_Widget_For_About(
-                      text: 'Budget',
-                    ),
-                    SizedBox(height: MediaQuery.of(context).size.height * .001),
-                    Text(
-                      '\$${budget.toStringAsFixed(0)}',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w100,
-                          fontSize: MediaQuery.of(context).size.height * .02),
-                    ),
-                  ],
-                ),
-              ),
+              Budget_Movie_about(budget: budget),
               SizedBox(width: MediaQuery.of(context).size.width * .05),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Text_Widget_For_About(
-                      text: 'Revenue',
-                    ),
-                    SizedBox(height: MediaQuery.of(context).size.height * .001),
-                    Text(
-                      '\$${revenue.toStringAsFixed(0)}',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w100,
-                          fontSize: MediaQuery.of(context).size.height * .02),
-                    ),
-                  ],
-                ),
-              ),
+              Revenue_Movie_About(revenue: revenue),
             ],
           ),
           SizedBox(height: MediaQuery.of(context).size.height * .02),
-          // Row 5: Soft Gross
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Text_Widget_For_About(
-                      text: 'Soft Gross',
-                    ),
-                    SizedBox(
-                        height: MediaQuery.of(context).size.height * .0005),
-                    Text(
-                      '\$${softGross.toStringAsFixed(0)}',
-                      style: TextStyle(
-                          color: softGrossColor,
-                          fontWeight: FontWeight.w100,
-                          fontSize: MediaQuery.of(context).size.height * .02),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+          // Row 5: soft gross
+          Soft_Gross_widget(
+              softGross: softGross, softGrossColor: softGrossColor),
         ],
       ),
     );

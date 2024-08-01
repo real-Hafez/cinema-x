@@ -10,7 +10,7 @@ class Detilis {
   num? budget;
   List<Genre>? genres;
   String? homepage;
-  num? id;
+  int? id;
   String? imdbId;
   List<String>? originCountry;
   String? originalLanguage;
@@ -69,7 +69,7 @@ class Detilis {
             ?.map((e) => Genre.fromJson(Map<String, dynamic>.from(e)))
             .toList(),
         homepage: json['homepage']?.toString(),
-        id: num.tryParse(json['id'].toString()),
+        id: int.tryParse(json['id'].toString()),
         imdbId: json['imdb_id']?.toString(),
         originCountry: List<String>.from(json['origin_country'] ?? []),
         originalLanguage: json['original_language']?.toString(),

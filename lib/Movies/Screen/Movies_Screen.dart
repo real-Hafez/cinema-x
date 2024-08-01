@@ -1,12 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cinema_x/Movies/model/detilis_model/detilis.dart';
-import 'package:cinema_x/Movies/model/detilis_service/detilis_service.dart';
-import 'package:flutter/material.dart';
+import 'package:cinema_x/Movies/service/detilis_service/detilis_service.dart';
 import 'package:cinema_x/Movies/widgets/movie_Screen_ui.dart';
 import 'package:cinema_x/SearchPage/service/Search_Result_Service.dart';
 import 'package:cinema_x/Movies/service/Videos_Service.dart';
 import 'package:cinema_x/SearchPage/model/Search_Result_Model.dart';
 import 'package:cinema_x/Movies/model/Videos_model.dart';
+import 'package:flutter/material.dart';
 
 class MoviesScreen extends StatefulWidget {
   final int movieId;
@@ -114,7 +114,6 @@ class _MoviesScreenState extends State<MoviesScreen> {
                         screenWidth: MediaQuery.of(context).size.width,
                         videoHeight:
                             MediaQuery.of(context).size.width / (16 / 9),
-                        selectedTrailer: selectedTrailer,
                         trailers: trailers,
                         movie: movie,
                         detilis: detilis,
@@ -130,6 +129,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
     );
   }
 }
+
 /*
 
   @override

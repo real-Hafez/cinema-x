@@ -1,3 +1,4 @@
+import 'package:cinema_x/Watch_Movies/screen/Watch_Movies.dart';
 import 'package:flutter/material.dart';
 
 class watch_Now_And_Add_to_wishlist_button extends StatelessWidget {
@@ -15,7 +16,13 @@ class watch_Now_And_Add_to_wishlist_button extends StatelessWidget {
           Expanded(
             flex: 5,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                // Navigate to watch now page
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const WatchMovies()));
+              },
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(
                     vertical: MediaQuery.of(context).size.height * .02),
