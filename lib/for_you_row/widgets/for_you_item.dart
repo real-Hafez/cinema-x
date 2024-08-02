@@ -28,9 +28,7 @@ class _for_you_itemState extends State<for_you_item> {
         setState(() {
           futureMovies = movieService.fetchMovies(1);
         });
-      } else {
-        print('No favorite genres available to fetch movies.');
-      }
+      } else {}
     });
   }
 
@@ -46,9 +44,18 @@ class _for_you_itemState extends State<for_you_item> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
+            return Center(child: Text('Errorr: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('No movies found.'));
+            return const Center(
+              child: Text(
+                'There was an error. Make sure you have an internet connection.',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.red,
+                  fontSize: 24,
+                ),
+              ),
+            );
           } else {
             final movies = snapshot.data!;
             return GridView.builder(

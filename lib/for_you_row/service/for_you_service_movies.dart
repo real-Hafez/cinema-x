@@ -19,6 +19,7 @@ class for_you_service_movies {
   final List<int> favMoviesList = [];
   final Random _random = Random();
 
+  // Check for internet connection
   Future<bool> _checkConnection() async {
     try {
       final result = await InternetAddress.lookup('example.com');
@@ -28,21 +29,25 @@ class for_you_service_movies {
     }
   }
 
+  // Public method to check connection
   Future<bool> checkConnection() {
     return _checkConnection();
   }
 
   Future<List<for_you_model_movies>> fetchMovies(int page) async {
     print('fetchMovies called');
+
     if (favMoviesList.isEmpty) {
       print('Favorite genres list is empty. Cannot fetch movies.');
       return [];
     }
 
+    // Check internet connection
     final hasInternet = await _checkConnection();
     if (!hasInternet) {
       print('No internet connection');
-      //  throw Exception('No internet connection');
+      // Handle the case where there is no internet connection
+      return [];
     }
 
     final randomGenreId = favMoviesList[_random.nextInt(favMoviesList.length)];
@@ -52,21 +57,40 @@ class for_you_service_movies {
         '${ApiConfig.baseUrl}/discover/movie?include_adult=false&include_video=false&language=en-US&page=$page&sort_by=popularity.desc&with_genres=$randomGenreId&api_key=${ApiConfig.apiKey}';
     print('Request URL: $url');
 
-    final response = await http.get(Uri.parse(url));
-    print('Response status code: ${response.statusCode}');
+    try {
+      final response = await http.get(Uri.parse(url));
+      print('Response status code: ${response.statusCode}');
 
-    if (response.statusCode == 200) {
-      print('Response: ${response.body}');
-      final jsonData = json.decode(response.body);
-      final List<dynamic> results = jsonData['results'];
-      return results
-          .map((movieJson) => for_you_model_movies.fromJson(movieJson))
-          .toList();
-    } else {
-      throw Exception('Failed to load movies');
+      if (response.statusCode == 200) {
+        print('Response: ${response.body}');
+        final jsonData = json.decode(response.body);
+        final List<dynamic> results = jsonData['results'];
+        return results
+            .map((movieJson) => for_you_model_movies.fromJson(movieJson))
+            .toList();
+      } else {
+        throw Exception('Failed to load movies');
+      }
+    } on SocketException catch (e) {
+      print('SocketException: $e');
+      // Handle SocketException which is thrown when there is no internet connection
+      return [];
+    } on HttpException catch (e) {
+      print('HttpException: $e');
+      // Handle HttpException which is thrown for HTTP errors
+      return [];
+    } on FormatException catch (e) {
+      print('FormatException: $e');
+      // Handle FormatException which is thrown for malformed response
+      return [];
+    } catch (e) {
+      print('Unexpected error: $e');
+      // Handle any other unexpected errors
+      return [];
     }
   }
 
+  // Print user email and lookup in Firestore
   Future<void> printUserEmail() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? email = prefs.getString('email');
@@ -77,6 +101,7 @@ class for_you_service_movies {
     }
   }
 
+  // Lookup user in Firestore
   Future<void> _lookupUserInFirestore(String email) async {
     try {
       final userDoc = await _firestore.collection('genra').doc(email).get();

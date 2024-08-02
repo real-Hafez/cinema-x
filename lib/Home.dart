@@ -77,8 +77,16 @@ class _HomeState extends State<Home> {
                       ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
                   } else if (moviesSnapshot.hasError) {
-                    return Center(
-                        child: Text('Error: ${moviesSnapshot.error}'));
+                    return const Center(
+                      child: Text(
+                        'There was an error. Make sure you have an internet connection.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                        ),
+                      ),
+                    );
                   } else if (moviesSnapshot.hasData) {
                     final popularMoviesList = moviesSnapshot.data!;
                     return SearchScreen(

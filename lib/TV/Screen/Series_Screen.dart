@@ -30,11 +30,14 @@ class _TvSeriesScreenState extends State<TvSeriesScreen> {
       final seriesDetails = await TMDbService().getSeriesDetails(widget.tvId);
       final videoList = await TMDbService().fetchVideosSeries(widget.tvId);
 
-      final trailerList = videoList.where((video) => video.type == 'Trailer').toList();
+      final trailerList =
+          videoList.where((video) => video.type == 'Trailer').toList();
       if (trailerList.isNotEmpty) {
-        final officialTrailers = trailerList.where((video) => (video.official ?? false)).toList();
+        final officialTrailers =
+            trailerList.where((video) => (video.official ?? false)).toList();
         if (officialTrailers.isNotEmpty) {
-          officialTrailers.sort((a, b) => b.publishedAt!.compareTo(a.publishedAt!));
+          officialTrailers
+              .sort((a, b) => b.publishedAt!.compareTo(a.publishedAt!));
           selectedTrailer = officialTrailers.first;
         } else {
           trailerList.sort((a, b) => b.publishedAt!.compareTo(a.publishedAt!));
@@ -52,7 +55,7 @@ class _TvSeriesScreenState extends State<TvSeriesScreen> {
         seriesName = seriesDetails.name ?? 'Unknown'; // Set the series name
       });
     } catch (e) {
-      print('Error loading data: $e');
+      print('Errorrr loading data: $e');
     }
   }
 
@@ -78,7 +81,7 @@ class _TvSeriesScreenState extends State<TvSeriesScreen> {
             ? const Center(child: CircularProgressIndicator())
             : SingleChildScrollView(
                 child: SeriesScreenUI(
-                  seriesId: widget.tvId,  // Pass the tvId to SeriesScreenUI
+                  seriesId: widget.tvId, // Pass the tvId to SeriesScreenUI
                   screenWidth: MediaQuery.of(context).size.width,
                   videoHeight: MediaQuery.of(context).size.width / (16 / 9),
                   trailers: trailers,

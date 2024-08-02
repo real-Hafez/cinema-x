@@ -47,41 +47,72 @@ class _SeasonEpisodesTabState extends State<SeasonEpisodesTab> {
           itemBuilder: (context, index) {
             final episode = seasonDetails.episodes[index];
             return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: ListTile(
-                contentPadding: const EdgeInsets.all(8.0),
-                leading: episode.posterPath.isNotEmpty
-                    ? CachedNetworkImage(
-                        imageUrl:
-                            '${ApiConfig.imageBaseUrl}${episode.posterPath}',
-                        width: 200,
-                        height: 250,
-                        fit: BoxFit.cover,
-                        progressIndicatorBuilder:
-                            (context, url, downloadProgress) => Center(
-                                  child: CircularProgressIndicator(
-                                    value: downloadProgress.progress,
-                                    valueColor:
-                                        const AlwaysStoppedAnimation<Color>(
-                                            Colors.blue),
-                                    backgroundColor: Colors.white,
-                                  ),
-                                ))
-                    : const SizedBox(
-                        width: 200,
-                        height: 200,
-                        child: Icon(Icons.image, size: 90)),
-                title: Text(
-                  '${episode.episodeNumber}. ${episode.name}',
-                  style: const TextStyle(color: Colors.white),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey[900], // Background color for the box
+                  borderRadius: BorderRadius.circular(12.0), // Rounded corners
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.5),
+                      spreadRadius: 2,
+                      blurRadius: 8,
+                      offset: const Offset(0, 4), // Shadow position
+                    ),
+                  ],
                 ),
-                subtitle: Text(
-                  episode.airDate ?? 'unkonw' '${episode.airDate}' '',
-                  style: const TextStyle(color: Colors.grey),
+                child: Column(
+                  children: [
+                    // Image
+                    episode.posterPath.isNotEmpty
+                        ? Container(
+                            width: double.infinity, // Full width
+                            height: 300, // Fixed height
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.vertical(
+                                  top: Radius.circular(
+                                      12.0)), // Rounded top corners
+                              image: DecorationImage(
+                                image: CachedNetworkImageProvider(
+                                    '${ApiConfig.imageBaseUrl}${episode.posterPath}'),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          )
+                        : Container(
+                            width: double.infinity,
+                            height: 300,
+                            color: Colors.grey[800],
+                            child: const Icon(Icons.image, size: 90),
+                          ),
+                    // Text Content
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${episode.episodeNumber}. ${episode.name}',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            ),
+                          ),
+                          const SizedBox(height: 4.0),
+                          Text(
+                            episode.airDate ?? 'Unknown',
+                            style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 14.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-                onTap: () {
-                  // Handle episode tap if needed
-                },
               ),
             );
           },

@@ -2,9 +2,17 @@ import 'dart:convert';
 import 'package:cinema_x/ApiConfig.dart';
 import 'package:cinema_x/backdrop_poster_for_popular_and_For_you_movies_and_series/models/popular/popular_tmdb.dart';
 import 'package:http/http.dart' as http;
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 class popularService {
   static Future<List<popular>> fetchPopular() async {
+    // Check for internet connectivity
+    final connectivityResult = await Connectivity().checkConnectivity();
+    if (connectivityResult == ConnectivityResult.none) {
+      // No internet connection, so throw an exception
+      throw Exception('No internet connection');
+    }
+
     const url =
         '${ApiConfig.baseUrl}/trending/all/day?language=en-US&api_key=${ApiConfig.apiKey}';
     try {
@@ -14,13 +22,14 @@ class popularService {
         final List<dynamic> results = data['results'];
         return results.map((json) => popular.fromJson(json)).toList();
       } else {
-        print('Failed to fetch movies. Status code: ${response.statusCode}');
-        print('Response body: ${response.body}');
-        throw Exception('Failed to fetch movies');
+        // Server responded with a status code that is not 200 OK
+        throw Exception(
+            'Failed to fetch movies. Status code: ${response.statusCode}');
       }
     } catch (e) {
+      // Catch any errors (including connectivity issues)
       print('Error occurred: $e');
-      throw Exception('Failed to fetch movies');
+      throw Exception('Failed to fetch movies: $e');
     }
   }
 }

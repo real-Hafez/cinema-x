@@ -29,14 +29,10 @@ Future<void> main() async {
 
   if (forYouService.favMoviesList.isNotEmpty) {
     await forYouService.fetchMovies(1);
-  } else {
-    print('No favorite genres available to fetch movies.');
-  }
+  } else {}
   if (forYouServiceseries.Fav_series_list.isNotEmpty) {
     await forYouServiceseries.fetchseries(1);
-  } else {
-    print('No favorite genres available to fetch movies.');
-  }
+  } else {}
   FlutterError.onError = (errorDetails) {
     FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
   };

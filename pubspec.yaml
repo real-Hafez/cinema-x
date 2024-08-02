@@ -34,6 +34,7 @@ dependencies:
   build_runner: ^2.4.11
   cached_network_image: ^3.3.1
   cloud_firestore: ^5.1.0
+  connectivity_plus: ^6.0.4
   cupertino_icons: ^1.0.6
   device_preview: ^1.2.0
   dio: ^5.5.0+1

@@ -40,7 +40,16 @@ class _TrendingCoulmState extends State<TrendingCoulm> {
           if (personSnapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (personSnapshot.hasError) {
-            return Center(child: Text('Error: ${personSnapshot.error}'));
+            return const Center(
+              child: Text(
+                'There was an error. Make sure you have an internet connection.',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.red,
+                  fontSize: 24,
+                ),
+              ),
+            );
           } else if (personSnapshot.hasData) {
             final personModelList = personSnapshot.data!;
 

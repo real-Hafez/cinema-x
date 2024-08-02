@@ -12,7 +12,6 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return NotificationListener<ScrollNotification>(
       onNotification: (scrollInfo) {
-        // Implement your scroll logic if needed
         return true;
       },
       child: SingleChildScrollView(
