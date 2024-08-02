@@ -14,7 +14,8 @@ class EpisodesModel {
   final String type;
   final double voteAverage;
   final int voteCount;
-  final SeasonDetails? seasonDetails; // Optional, as it may not always be present
+  final SeasonDetails?
+      seasonDetails; // Optional, as it may not always be present
 
   EpisodesModel({
     required this.adult,
@@ -47,13 +48,14 @@ class EpisodesModel {
       overview: json['overview'] ?? '',
       popularity: json['popularity']?.toDouble() ?? 0.0,
       posterPath: json['poster_path'] ?? '',
-      seasons: List<Season>.from(json['seasons'].map((x) => Season.fromJson(x))),
+      seasons:
+          List<Season>.from(json['seasons'].map((x) => Season.fromJson(x))),
       status: json['status'] ?? '',
       type: json['type'] ?? '',
       voteAverage: json['vote_average']?.toDouble() ?? 0.0,
       voteCount: json['vote_count'] ?? 0,
-      seasonDetails: json.containsKey('season/1') 
-          ? SeasonDetails.fromJson(json['season/1']) 
+      seasonDetails: json.containsKey('season/1')
+          ? SeasonDetails.fromJson(json['season/1'])
           : null,
     );
   }
@@ -106,6 +108,7 @@ class Season {
 }
 
 class Episode {
+  final int id;
   final String airDate;
   final int episodeNumber;
   final String name;
@@ -114,6 +117,7 @@ class Episode {
   final double voteAverage;
 
   Episode({
+    required this.id,
     required this.airDate,
     required this.episodeNumber,
     required this.name,
@@ -124,6 +128,7 @@ class Episode {
 
   factory Episode.fromJson(Map<String, dynamic> json) {
     return Episode(
+      id: json['id'] ?? 0,
       airDate: json['air_date'] ?? '',
       episodeNumber: json['episode_number'] ?? 0,
       name: json['name'] ?? '',
@@ -158,7 +163,8 @@ class SeasonDetails {
       posterPath: json['poster_path'] ?? '',
       seasonNumber: json['season_number'] ?? 0,
       voteAverage: json['vote_average']?.toDouble() ?? 0.0,
-      episodes: List<Episode>.from(json['episodes'].map((x) => Episode.fromJson(x))),
+      episodes:
+          List<Episode>.from(json['episodes'].map((x) => Episode.fromJson(x))),
     );
   }
 }

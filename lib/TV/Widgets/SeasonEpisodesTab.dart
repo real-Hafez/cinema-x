@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cinema_x/ApiConfig.dart';
+import 'package:cinema_x/TV/Screen/Watch_Now_Series.dart';
+import 'package:cinema_x/TV/Widgets/series_name_And_Date_for_series.dart';
 import 'package:cinema_x/TV/model/Episodes_model.dart';
 import 'package:cinema_x/TV/service/Episodes_Servicec.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +30,19 @@ class _SeasonEpisodesTabState extends State<SeasonEpisodesTab> {
         .fetchTVShowDetails(widget.seriesId, widget.seasonNumber);
   }
 
+  void _navigateToWatchSeriesNow(int episodeNumber) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => WatchSeriesNow(
+          id: widget.seriesId,
+          sesson_number: widget.seasonNumber,
+          episode: episodeNumber, // Use episodeNumber instead of id
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<SeasonDetails>(
@@ -46,72 +61,50 @@ class _SeasonEpisodesTabState extends State<SeasonEpisodesTab> {
           itemCount: seasonDetails.episodes.length,
           itemBuilder: (context, index) {
             final episode = seasonDetails.episodes[index];
-            return Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.grey[900], // Background color for the box
-                  borderRadius: BorderRadius.circular(12.0), // Rounded corners
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.5),
-                      spreadRadius: 2,
-                      blurRadius: 8,
-                      offset: const Offset(0, 4), // Shadow position
-                    ),
-                  ],
-                ),
-                child: Column(
-                  children: [
-                    // Image
-                    episode.posterPath.isNotEmpty
-                        ? Container(
-                            width: double.infinity, // Full width
-                            height: 300, // Fixed height
-                            decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.vertical(
-                                  top: Radius.circular(
-                                      12.0)), // Rounded top corners
-                              image: DecorationImage(
-                                image: CachedNetworkImageProvider(
-                                    '${ApiConfig.imageBaseUrl}${episode.posterPath}'),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          )
-                        : Container(
-                            width: double.infinity,
-                            height: 300,
-                            color: Colors.grey[800],
-                            child: const Icon(Icons.image, size: 90),
-                          ),
-                    // Text Content
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '${episode.episodeNumber}. ${episode.name}',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0,
-                            ),
-                          ),
-                          const SizedBox(height: 4.0),
-                          Text(
-                            episode.airDate ?? 'Unknown',
-                            style: const TextStyle(
-                              color: Colors.grey,
-                              fontSize: 14.0,
-                            ),
-                          ),
-                        ],
+            return GestureDetector(
+              onTap: () => _navigateToWatchSeriesNow(episode.episodeNumber), // Use episodeNumber
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey[900], // Background color for the box
+                    borderRadius: BorderRadius.circular(12.0), // Rounded corners
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 8,
+                        offset: const Offset(0, 4), // Shadow position
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      // Image
+                      episode.posterPath.isNotEmpty
+                          ? Container(
+                              width: double.infinity, // Full width
+                              height: 300, // Fixed height
+                              decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.vertical(
+                                    top: Radius.circular(12.0)), // Rounded top corners
+                                image: DecorationImage(
+                                  image: CachedNetworkImageProvider(
+                                      '${ApiConfig.imageBaseUrl}${episode.posterPath}'),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            )
+                          : Container(
+                              width: double.infinity,
+                              height: 300,
+                              color: Colors.grey[800],
+                              child: const Icon(Icons.image, size: 90),
+                            ),
+                      // Text Content
+                      series_name_And_Date_for_series(episode: episode),
+                    ],
+                  ),
                 ),
               ),
             );
