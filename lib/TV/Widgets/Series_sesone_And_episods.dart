@@ -1,3 +1,4 @@
+import 'package:cinema_x/TV/Widgets/SeasonEpisodesTab.dart';
 import 'package:cinema_x/TV/model/Details_Series_Model.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,6 @@ class Series_sesone_And_episods extends StatelessWidget {
       return const Center(child: Text('No seasons available.'));
     }
 
-    // Filter out invalid seasons and remove season 0 if it exists
     final validSeasons = tvShow.seasons!
         .where((season) =>
             season.seasonNumber != null &&
@@ -24,7 +24,7 @@ class Series_sesone_And_episods extends StatelessWidget {
     if (validSeasons.isEmpty) {
       return Center(
         child: Text(
-          'There is a problem while Showing Seasons.',
+          'There is a problem while showing seasons.',
           style: TextStyle(
             color: Colors.blue,
             fontSize: MediaQuery.of(context).size.height * .02,
@@ -49,14 +49,22 @@ class Series_sesone_And_episods extends StatelessWidget {
               indicator: const UnderlineTabIndicator(
                 borderSide: BorderSide(width: 8, color: Colors.blue),
               ),
-              tabs: validSeasons.asMap().entries.map((entry) {
-                Season season = entry.value;
-
+              tabs: validSeasons.map((season) {
                 return Tab(
                   text:
                       'Season ${season.seasonNumber} (${season.episodeCount ?? 0} episodes)',
                 );
               }).toList(),
+            ),
+            Expanded(
+              child: TabBarView(
+                children: validSeasons.map((season) {
+                  return SeasonEpisodesTab(
+                    seriesId: tvShow.id,
+                    seasonNumber: season.seasonNumber!,
+                  );
+                }).toList(),
+              ),
             ),
           ],
         ),
