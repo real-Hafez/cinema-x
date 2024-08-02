@@ -46,7 +46,7 @@ class _FirstShowCasePopularState extends State<FirstShowCasePopular> {
   void _startAutoChange() {
     _timer = Timer.periodic(const Duration(seconds: 7), (timer) {
       setState(() {
-        currentPage = (currentPage + 1) % 8;
+        currentPage = (currentPage + 1) % widget.popularList.length;
         selectedImageUrl =
             '${ApiConfig.imageBaseUrl}${widget.popularList[currentPage].backdropPath}';
         selectedNameOrTitle = widget.popularList[currentPage].title ??
@@ -81,13 +81,10 @@ class _FirstShowCasePopularState extends State<FirstShowCasePopular> {
                 '${ApiConfig.imageBaseUrl}${firstMovie.backdropPath}',
             movieId: firstMovie.id,
             tvId: firstMovie.id, // Assuming ID is used for both movie and TV
-            actorId: firstMovie.id, // Assuming ID is used for actor as well
-            isMovie:
-                firstMovie.title != null, // Assuming title indicates a movie
-            isTv: firstMovie.name != null &&
-                firstMovie.title ==
-                    null, // Assuming name and no title indicates a TV series
-            isActor: false, // Modify logic if needed for actors
+            actorId: 0, // Not applicable
+            isMovie: firstMovie.title != null,
+            isTv: firstMovie.name != null && firstMovie.title == null,
+            isActor: false, // Not applicable
           ),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.015,

@@ -1,5 +1,6 @@
 import 'package:cinema_x/Actor/Screen/Actor_Screen.dart';
 import 'package:cinema_x/Movies/Screen/Movies_Screen.dart';
+import 'package:cinema_x/Popular_peoble_movies_series/models/Person_Model.dart';
 import 'package:cinema_x/SearchPage/model/Search_Result_Model.dart';
 import 'package:cinema_x/TV/Screen/Series_Screen.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +9,10 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cinema_x/ApiConfig.dart';
 import 'package:cinema_x/SearchPage/service/Search_Result_Service.dart';
 
-class Text_field_For_Search extends StatefulWidget {
-  const Text_field_For_Search({
+import '../../Popular_peoble_movies_series/service/Person_service.dart';
+
+class TextFieldForSearch extends StatefulWidget {
+  const TextFieldForSearch({
     super.key,
     required this.bottomBarVisibilityNotifier,
     required this.onSearchChanged,
@@ -19,12 +22,12 @@ class Text_field_For_Search extends StatefulWidget {
   final Function(bool) onSearchChanged;
 
   @override
-  State<Text_field_For_Search> createState() => _Text_field_For_SearchState();
+  State<TextFieldForSearch> createState() => _TextFieldForSearchState();
 }
 
-class _Text_field_For_SearchState extends State<Text_field_For_Search> {
+class _TextFieldForSearchState extends State<TextFieldForSearch> {
   final TextEditingController _controller = TextEditingController();
-  final search_service _tmdbService = search_service();
+  final search_service _searchService = search_service();
   late FocusNode _focusNode;
   bool _isWriting = false;
   List<SearchResultModel> _searchResults = [];
@@ -47,7 +50,7 @@ class _Text_field_For_SearchState extends State<Text_field_For_Search> {
 
   void _onSearchChanged(String query) async {
     if (query.isNotEmpty) {
-      final results = await _tmdbService.searchMedia(query);
+      final results = await _searchService.searchMedia(query);
       setState(() {
         _isWriting = true;
         _searchResults = results;
@@ -61,7 +64,7 @@ class _Text_field_For_SearchState extends State<Text_field_For_Search> {
     widget.onSearchChanged(_isWriting);
   }
 
-  void _navigateToDetailScreen(SearchResultModel item) {
+  Future<void> _navigateToDetailScreen(SearchResultModel item) async {
     if (item.mediaType == 'movie') {
       Navigator.push(
         context,
@@ -77,13 +80,23 @@ class _Text_field_For_SearchState extends State<Text_field_For_Search> {
         ),
       );
     } else if (item.mediaType == 'person') {
+      // Fetch additional details for Person_Model
+      Person_Model personModel = await _fetchPersonDetails(item.id);
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ActorScreen(actorId: item.id),
+          builder: (context) => ActorScreen(
+            personId: personModel.id!,
+          ),
         ),
       );
     }
+  }
+
+  Future<Person_Model> _fetchPersonDetails(int personId) async {
+    final personDetailService = PersonDetailService();
+    final personJson = await personDetailService.getPersonDetail(personId);
+    return personJson;
   }
 
   @override

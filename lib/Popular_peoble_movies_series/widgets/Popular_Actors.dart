@@ -28,7 +28,7 @@ class PopularActors extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ActorScreen(actorId: actor.id),
+                    builder: (context) => ActorScreen(personId: actor.id!),
                   ),
                 );
               },
@@ -71,7 +71,7 @@ class PopularActors extends StatelessWidget {
                     child: AnimatedTextKit(
                       animatedTexts: [
                         WavyAnimatedText(
-                          actor.name,
+                          actor.name!,
                           textStyle: TextStyle(
                             color: Colors.white,
                             fontSize: MediaQuery.of(context).size.height * .026,
@@ -80,7 +80,7 @@ class PopularActors extends StatelessWidget {
                           speed: const Duration(milliseconds: 309),
                         ),
                         ColorizeAnimatedText(
-                          actor.name,
+                          actor.name!,
                           textStyle: TextStyle(
                             fontSize: MediaQuery.of(context).size.height * .026,
                             fontWeight: FontWeight.bold,

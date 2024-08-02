@@ -1,17 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cinema_x/ApiConfig.dart';
-import 'package:cinema_x/Popular_peoble_movies_series/models/Popular_Series_model.dart';
-import 'package:cinema_x/Popular_peoble_movies_series/service/Popular_movies_service.dart';
+import 'package:cinema_x/Popular_peoble_movies_series/models/Person_Model.dart';
+import 'package:cinema_x/Popular_peoble_movies_series/service/Person_service.dart';
 import 'package:cinema_x/SearchPage/widget/Text_field_For_Search.dart';
 import 'package:cinema_x/backdrop_poster_for_popular_and_For_you_movies_and_series/models/popular/popular_tmdb.dart';
 import 'package:cinema_x/Movies/Screen/Movies_Screen.dart';
 import 'package:cinema_x/TV/Screen/Series_Screen.dart';
 import 'package:cinema_x/Actor/Screen/Actor_Screen.dart';
 import 'package:cinema_x/SearchPage/model/Search_Result_Model.dart';
-import 'package:cinema_x/backdrop_poster_for_popular_and_For_you_movies_and_series/service/popular_service.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 class SearchScreen extends StatefulWidget {
   final List<popular> Popular;
@@ -40,7 +37,7 @@ class _SearchScreenState extends State<SearchScreen> {
     });
   }
 
-  void _navigateToDetailScreen(dynamic item) {
+  void _navigateToDetailScreen(dynamic item) async {
     if (item is popular) {
       print('Navigating to: ${item.mediaType} with ID: ${item.id}');
       if (item.mediaType == 'movie') {
@@ -58,10 +55,43 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
         );
       } else if (item.mediaType == 'person') {
+        // Fetch person details using the personId
+        final personId = item.id;
+        final personModel =
+            await PersonDetailService().getPersonDetail(personId);
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ActorScreen(actorId: item.id),
+            builder: (context) => ActorScreen(
+              personId: personId,
+            ),
+          ),
+        );
+      }
+    } else if (item is SearchResultModel) {
+      if (item.mediaType == 'movie') {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MoviesScreen(movieId: item.id),
+          ),
+        );
+      } else if (item.mediaType == 'tv') {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => TvSeriesScreen(tvId: item.id),
+          ),
+        );
+      } else if (item.mediaType == 'person') {
+        // Fetch person details using the personId
+        final personId = item.id;
+        final personModel =
+            await PersonDetailService().getPersonDetail(personId);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ActorScreen(personId: personModel.id!),
           ),
         );
       }
@@ -74,7 +104,7 @@ class _SearchScreenState extends State<SearchScreen> {
       backgroundColor: const Color(0xff090E17),
       body: Column(
         children: [
-          Text_field_For_Search(
+          TextFieldForSearch(
             bottomBarVisibilityNotifier: widget.bottomBarVisibilityNotifier,
             onSearchChanged: (isSearching) {
               widget.isSearchingNotifier.value = isSearching;
@@ -122,7 +152,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           posterPath = item.posterPath ?? '';
                         } else {
                           posterPath =
-                              ''; // Fallback to an empty path if type is unknown
+                              ''; 
                         }
 
                         final imageUrl = '${ApiConfig.imageBaseUrl}$posterPath';

@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cinema_x/backdrop_poster_for_popular_and_For_you_movies_and_series/widgets/Logo.dart';
 import 'package:cinema_x/backdrop_poster_for_popular_and_For_you_movies_and_series/widgets/watch_now_button.dart';
 import 'package:flutter/material.dart';
+import 'package:cinema_x/Popular_peoble_movies_series/models/Person_Model.dart';
 
 class TrendingBackdrop extends StatelessWidget {
   final String imageUrl;
@@ -13,7 +14,7 @@ class TrendingBackdrop extends StatelessWidget {
   final bool isMovie;
   final bool isTv;
   final bool isActor;
-
+  final Person_Model? personModel;
   const TrendingBackdrop({
     super.key,
     required this.imageUrl,
@@ -24,6 +25,7 @@ class TrendingBackdrop extends StatelessWidget {
     required this.isMovie,
     required this.isTv,
     required this.isActor,
+    this.personModel,
   });
 
   @override
@@ -76,9 +78,10 @@ class TrendingBackdrop extends StatelessWidget {
           left: MediaQuery.of(context).size.width * 0.03,
           bottom: MediaQuery.of(context).size.width * 0.01,
           child: WatchNowButton(
-            movieId: movieId,
-            tvId: tvId,
-            actorId: actorId,
+            personModel: isActor ? personModel : null,
+            movieId: isMovie ? movieId : 0,
+            tvId: isTv ? tvId : 0,
+            actorId: isActor ? actorId : 0,
             isMovie: isMovie,
             isTv: isTv,
             isActor: isActor,
