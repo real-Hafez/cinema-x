@@ -24,7 +24,7 @@ class Text_field_For_Search extends StatefulWidget {
 
 class _Text_field_For_SearchState extends State<Text_field_For_Search> {
   final TextEditingController _controller = TextEditingController();
-  final TMDbService _tmdbService = TMDbService();
+  final search_service _tmdbService = search_service();
   late FocusNode _focusNode;
   bool _isWriting = false;
   List<SearchResultModel> _searchResults = [];

@@ -4,7 +4,7 @@ import 'package:cinema_x/ApiConfig.dart';
 import 'package:cinema_x/SearchPage/model/Search_Result_Model.dart';
 import 'package:http/http.dart' as http;
 
-class TMDbService {
+class search_service {
   Future<List<SearchResultModel>> searchMedia(
     String query,
   ) async {

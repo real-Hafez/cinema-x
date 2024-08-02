@@ -1,63 +1,94 @@
-import 'package:cinema_x/ApiConfig.dart';
-import 'package:cinema_x/Popular_peoble_movies_series/service/PopularSeries_service.dart';
-import 'package:cinema_x/SearchPage/model/Search_Result_Model.dart';
-import 'package:cinema_x/SearchPage/service/Search_Result_Service.dart';
-import 'package:cinema_x/backdrop_poster_for_popular_and_For_you_movies_and_series/models/popular/popular_tmdb.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cinema_x/TV/model/videos_series/result.dart';
+import 'package:cinema_x/TV/service/Video_Service.dart';
 import 'package:flutter/material.dart';
+import 'package:cinema_x/TV/Widgets/Series_Screen_ui.dart';
 
-class TvSeriesScreen extends StatelessWidget {
+class TvSeriesScreen extends StatefulWidget {
   final int tvId;
 
   const TvSeriesScreen({super.key, required this.tvId});
 
   @override
+  _TvSeriesScreenState createState() => _TvSeriesScreenState();
+}
+
+class _TvSeriesScreenState extends State<TvSeriesScreen> {
+  Result? seriesData;
+  Result? selectedTrailer;
+  List<Result> trailers = [];
+  String seriesName = 'Loading...'; // Placeholder for the series name
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+
+  Future<void> _loadData() async {
+    try {
+      final seriesDetails = await TMDbService().getSeriesDetails(widget.tvId);
+      final videoList = await TMDbService().fetchVideosSeries(widget.tvId);
+
+      final trailerList = videoList.where((video) => video.type == 'Trailer').toList();
+      if (trailerList.isNotEmpty) {
+        final officialTrailers = trailerList.where((video) => (video.official ?? false)).toList();
+        if (officialTrailers.isNotEmpty) {
+          officialTrailers.sort((a, b) => b.publishedAt!.compareTo(a.publishedAt!));
+          selectedTrailer = officialTrailers.first;
+        } else {
+          trailerList.sort((a, b) => b.publishedAt!.compareTo(a.publishedAt!));
+          selectedTrailer = trailerList.first;
+        }
+        trailers = trailerList;
+      }
+
+      if (selectedTrailer == null && trailers.isNotEmpty) {
+        selectedTrailer = trailers.first;
+      }
+
+      setState(() {
+        seriesData = seriesDetails;
+        seriesName = seriesDetails.name ?? 'Unknown'; // Set the series name
+      });
+    } catch (e) {
+      print('Error loading data: $e');
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('TV Series Screen')),
-      body: FutureBuilder<SearchResultModel>(
-        future: TMDbService().getseriesDetails(tvId),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData) {
-            return const Center(child: Text('No series data'));
-          } else {
-            final series = snapshot.data!;
-            return Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    series.name ?? 'No Title',
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    series.releaseDate ?? 'No Release Date',
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontStyle: FontStyle.italic,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Text(series.overview ?? 'No Overview'),
-                  const SizedBox(height: 16),
-                  if (series.posterPath != null)
-                    Image.network(
-                      '${ApiConfig.imageBaseUrl}${series.posterPath}',
-                      fit: BoxFit.cover,
-                    ),
-                ],
+      backgroundColor: const Color(0xff090E17),
+      appBar: AppBar(
+        surfaceTintColor: Colors.black,
+        shadowColor: Colors.blue,
+        iconTheme: const IconThemeData(color: Colors.white),
+        centerTitle: true,
+        backgroundColor: const Color(0xff090E17),
+        title: AutoSizeText(
+          seriesName,
+          style: const TextStyle(
+            color: Colors.white,
+          ),
+        ),
+      ),
+      body: SafeArea(
+        child: seriesData == null
+            ? const Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
+                child: SeriesScreenUI(
+                  seriesId: widget.tvId,  // Pass the tvId to SeriesScreenUI
+                  screenWidth: MediaQuery.of(context).size.width,
+                  videoHeight: MediaQuery.of(context).size.width / (16 / 9),
+                  trailers: trailers,
+                  onTrailerSelected: (trailer) {
+                    setState(() {
+                      selectedTrailer = trailer;
+                    });
+                  },
+                ),
               ),
-            );
-          }
-        },
       ),
     );
   }

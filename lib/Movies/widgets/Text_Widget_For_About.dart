@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class Text_Widget_For_About extends StatelessWidget {
   const Text_Widget_For_About({
-    super.key, required this.text,
+    super.key,
+    required this.text,
   });
   final String text;
   @override

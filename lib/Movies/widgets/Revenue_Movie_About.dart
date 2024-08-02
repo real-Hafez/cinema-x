@@ -31,4 +31,3 @@ class Revenue_Movie_About extends StatelessWidget {
     );
   }
 }
-

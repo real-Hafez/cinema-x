@@ -29,4 +29,3 @@ class Year_Movie_About extends StatelessWidget {
     );
   }
 }
-

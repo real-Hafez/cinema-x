@@ -38,8 +38,7 @@ class Votes_And_Rating_Row extends StatelessWidget {
                     itemSize: MediaQuery.of(context).size.height * .025,
                     direction: Axis.horizontal,
                   ),
-                  SizedBox(
-                      width: MediaQuery.of(context).size.width * .02),
+                  SizedBox(width: MediaQuery.of(context).size.width * .02),
                 ],
               ),
             ],
@@ -68,4 +67,3 @@ class Votes_And_Rating_Row extends StatelessWidget {
     );
   }
 }
-

@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 class watch_Now_And_Add_to_wishlist_button extends StatelessWidget {
   const watch_Now_And_Add_to_wishlist_button({
     super.key,
+    required this.id,
   });
-
+  final int id;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -17,11 +18,12 @@ class watch_Now_And_Add_to_wishlist_button extends StatelessWidget {
             flex: 5,
             child: ElevatedButton(
               onPressed: () {
-                // Navigate to watch now page
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const WatchMovies()));
+                        builder: (context) => WatchMoviesNow(
+                              id: id,
+                            )));
               },
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(

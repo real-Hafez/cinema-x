@@ -23,8 +23,7 @@ class Soft_Gross_widget extends StatelessWidget {
               const Text_Widget_For_About(
                 text: 'Soft Gross',
               ),
-              SizedBox(
-                  height: MediaQuery.of(context).size.height * .0005),
+              SizedBox(height: MediaQuery.of(context).size.height * .0005),
               Text(
                 '\$${softGross.toStringAsFixed(0)}',
                 style: TextStyle(

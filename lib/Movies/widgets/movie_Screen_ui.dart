@@ -56,7 +56,9 @@ class _movie_Screen_uiState extends State<movie_Screen_ui> {
           ),
         ),
         SizedBox(height: MediaQuery.of(context).size.height * .03),
-        const watch_Now_And_Add_to_wishlist_button(),
+        watch_Now_And_Add_to_wishlist_button(
+          id: widget.detilis.id!,
+        ),
         SizedBox(height: MediaQuery.of(context).size.height * .03),
         Padding(
           padding: EdgeInsets.symmetric(
