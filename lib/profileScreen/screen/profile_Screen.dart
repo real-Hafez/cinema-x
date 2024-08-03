@@ -130,6 +130,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
         ),
+        const Spacer(),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 100),
+          child: Text(
+            'X cinema Version 1.0',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: MediaQuery.of(context).size.height * .04,
+            ),
+          ),
+        ),
       ],
     );
   }

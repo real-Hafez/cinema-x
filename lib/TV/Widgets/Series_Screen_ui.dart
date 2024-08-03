@@ -84,16 +84,17 @@ class _SeriesScreenUIState extends State<SeriesScreenUI> {
             ),
           ),
         ),
-        SizedBox(height: MediaQuery.of(context).size.height * .03),
-        watch_Now_And_Add_to_wishlist_button(
-          id: details?.id ?? 1,
-        ),
-        SizedBox(height: MediaQuery.of(context).size.height * .03),
+        SizedBox(height: MediaQuery.of(context).size.height * .02),
+        // watch_Now_And_Add_to_wishlist_button(
+        //   imageUrl: details!.posterPath ?? '',
+        //   id: details.id ?? 1,
+        // ),
+        // SizedBox(height: MediaQuery.of(context).size.height * .03),
         Padding(
           padding: EdgeInsets.symmetric(
               horizontal: MediaQuery.of(context).size.width * .04),
           child: AutoSizeText(
-            details?.overview ?? 'No overview available',
+            details!.overview ?? 'No overview available',
             style: TextStyle(
               fontSize: MediaQuery.of(context).size.height * .04,
               color: Colors.white,

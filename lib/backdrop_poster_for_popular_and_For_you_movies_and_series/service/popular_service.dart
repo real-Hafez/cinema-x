@@ -6,10 +6,8 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 
 class popularService {
   static Future<List<popular>> fetchPopular() async {
-    // Check for internet connectivity
     final connectivityResult = await Connectivity().checkConnectivity();
     if (connectivityResult == ConnectivityResult.none) {
-      // No internet connection, so throw an exception
       throw Exception('No internet connection');
     }
 

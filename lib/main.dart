@@ -5,7 +5,6 @@ import 'package:cinema_x/firebase_options.dart';
 import 'package:cinema_x/for_you_row/service/for_you_service_movies.dart';
 import 'package:cinema_x/for_you_row/service/for_you_service_series.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
@@ -29,10 +28,11 @@ Future<void> main() async {
 
   if (forYouService.favMoviesList.isNotEmpty) {
     await forYouService.fetchMovies(1);
-  } else {}
+  }
   if (forYouServiceseries.Fav_series_list.isNotEmpty) {
     await forYouServiceseries.fetchseries(1);
-  } else {}
+  }
+
   FlutterError.onError = (errorDetails) {
     FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
   };
@@ -42,11 +42,7 @@ Future<void> main() async {
     return true;
   };
 
-  runApp(
-    DevicePreview(
-      builder: (context) => const CinemaX(),
-    ),
-  );
+  runApp(const CinemaX());
 }
 
 class CinemaX extends StatelessWidget {
@@ -62,9 +58,6 @@ class CinemaX extends StatelessWidget {
         ),
         fontFamily: 'SFProDisplay',
       ),
-      useInheritedMediaQuery: true,
-      locale: DevicePreview.locale(context),
-      builder: DevicePreview.appBuilder,
       title: 'Cinema X',
       home: const SplashScreen(),
     );
